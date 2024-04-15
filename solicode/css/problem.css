@@ -1,0 +1,136 @@
+.problem .container {
+  width: 70%;
+  margin: 30px auto;
+}
+
+.problem .container table {
+  width: 100%;
+  text-align: left;
+  color: #121221;
+}
+
+.problem .container table tr:nth-child(odd) {
+  background-color: var(--gray-light);
+}
+
+.problem .container table tr:nth-child(even) {
+  background-color: var(--gray-midel);
+}
+
+.problem .container table tr th {
+  padding: 10px;
+}
+
+.problem .container table tr th.JS {
+  color: #ebc804;
+}
+.problem .container table tr th.CSS {
+  color: #0026ff;
+}
+.problem .container table tr th.HTML {
+  color: #ff1717;
+}
+.problem .container table tr th:hover {
+  cursor: pointer;
+}
+
+/* challenge work */
+
+.work .container .challenge-title {
+  width: 60%;
+  margin: auto;
+  text-align: center;
+  background-color: white;
+  padding: 10px;
+  line-height: 1.7em;
+  margin-bottom: 30px;
+}
+
+.work .container .challenge-body {
+  width: 60%;
+  margin: auto;
+}
+
+.work .container .challenge-body .text {
+  width: 100%;
+  line-height: 1.7em;
+  padding: 10px;
+  background-color: white;
+}
+
+.work .container .challenge-body > .img-box {
+  height: 300px;
+  width: 100%;
+  position: relative;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.work .container .challenge-body > .img-box img {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.editor {
+  width: 100%;
+  height: calc(100vh - 20px);
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.editor .input {
+  width: 40%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.editor .input main {
+  width: 100%;
+  margin-bottom: 1%;
+}
+.editor .input main .title {
+  background-color: var(--gray-midel);
+  display: flex;
+  justify-content: space-between;
+}
+
+.editor .input main .title * {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.editor .input main .title .icon {
+  transform: rotateZ(-90deg);
+}
+.editor .input main .title .icon.open {
+  transform: rotateZ(90deg);
+}
+
+.editor .input main .title .icon:hover {
+  background-color: white;
+}
+
+.editor .input main textarea {
+  width: 100%;
+  height: calc(100% - 36px);
+  background-color: #111;
+  color: gold;
+  /* padding: 10px; */
+}
+
+.editor .output-code {
+  width: 59%;
+  height: 100%;
+}
+
+.editor .output-code iframe {
+  width: 100%;
+  background-color: #fff;
+  height: 100%;
+  border: 5px solid var(--gray-dark);
+  resize: both;
+}

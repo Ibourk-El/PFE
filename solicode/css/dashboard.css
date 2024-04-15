@@ -1,0 +1,123 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.task-box {
+  width: 310px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background-color: var(--gray-light);
+  padding: 10px;
+  transition: 0.5s;
+  cursor: pointer;
+  position: relative;
+}
+
+.task-box::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.task-box:hover {
+  box-shadow: 0px 0px 10px 2px #121212;
+}
+
+.task-box h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.task-box footer {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.task-box footer span {
+  padding: 10px 2px;
+}
+
+.inDoing {
+  background-color: var(--green-light);
+  color: var(--green-dark);
+}
+.done {
+  background-color: var(--red-light);
+  color: var(--red-dark);
+}
+.notStart {
+  background-color: var(--gray-midel);
+}
+
+.table-container {
+  width: 90%;
+}
+.table-container .title{
+  text-align: center;
+  background-color:  white;
+  padding: 10px;
+  margin-bottom:10px ;
+}
+table {
+  width: 100%;
+}
+table thead tr th {
+  background-color: var(--gray-dark);
+  text-align: center;
+  padding: 10px;
+  color: white;
+}
+
+table tbody tr {
+  background-color: #ccc;
+  text-align: center;
+}
+select {
+  width: 100%;
+}
+
+table tbody tr:nth-child(2n + 1) {
+  background-color: var(--gray-midel);
+}
+table tbody tr th {
+  padding: 10px;
+}
+.run-btn {
+  cursor: pointer;
+  transition: 0.5s;
+}
+.run-btn:hover {
+  background-color: var(--main-color);
+  color: white;
+}
+.codeBox {
+  width: 90%;
+  margin-top: 20px;
+  height: 500px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+}
+
+textarea {
+  height: 100%;
+  background-color: #121212;
+  color: white;
+  padding: 10px;
+  resize: horizontal;
+}
+iframe {
+  height: 100%;
+  background-color: white;
+  resize: horizontal;
+}
