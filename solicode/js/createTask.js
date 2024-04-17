@@ -1,10 +1,10 @@
-import { sendData, getData } from "./functions.js";
+import { sendData, getData, baceURL } from "./functions.js";
 
 const sendBtn = document.getElementById("send-btn");
 
 // const creater_id=sessionStorage.getItem("creater_id")
 
-const taskURL = "http://localhost/projects/solicode/backend/api/task.php";
+const taskURL = baceURL+"solicode/backend/api/task.php";
 
 sendBtn.addEventListener("click", async () => {
   const inputs = document.querySelectorAll("input");

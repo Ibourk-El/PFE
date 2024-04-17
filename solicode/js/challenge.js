@@ -1,18 +1,46 @@
-import { closeBtnFun, openWorkSection, setUserName } from "./functions.js";
-
-const proTitle = document.querySelectorAll(".pro-title");
-const textearaIcon = document.querySelectorAll(".icon");
+import {
+  baceURL,
+  closeBtnFun,
+  openWorkSection,
+  setUserName,
+} from "./functions.js";
 
 const user_id = sessionStorage.getItem("user_id");
 const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
+const lang = document.getElementById("lang");
+const runBtn = document.getElementById("run-editor-btn");
+const problemTitle = document.querySelectorAll("pro-title");
 
-// fun
+// editor
+let editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.setFontSize("16px");
+editor.session.setMode("ace/mode/" + lang.value);
 
-closeBtnFun();
-setUserName(user_name, user_img);
+lang.addEventListener("change", () => {
+  editor.session.setMode("ace/mode/" + lang.value);
+  console.log(lang.value);
+});
+// ***************************
+// editor.getSession().on("change", () => {
+//   editIfrim();
+// });
 
-proTitle.forEach((e) => {
+// to set editor value in ifrim
+function editIframe() {
+  const outputCode = document.getElementById("output").contentWindow.document;
+  outputCode.open();
+  outputCode.write(editor.getValue());
+  outputCode.close();
+}
+
+// run code
+runBtn.addEventListener("click", () => {
+  editIframe();
+});
+
+problemTitle.forEach((e) => {
   e.addEventListener("click", () => {
     openWorkSection();
     editor();
@@ -20,50 +48,10 @@ proTitle.forEach((e) => {
 });
 
 //
+closeBtnFun();
+setUserName(user_name, user_img);
 
-textearaIcon.forEach((e) => {
-  e.addEventListener("click", (ev) => {
-    ev.target.classList.toggle("open");
-    let grid = "";
-    textearaIcon.forEach((el) => {
-      if (el.classList.contains("open")) {
-        grid += " 1fr";
-      } else {
-        grid += " auto";
-      }
-    });
-    document.getElementById("inputsBox").style.gridTemplateRows = grid;
-  });
-});
-
-function editor() {
-  const htmlCode = document.getElementById("html-code");
-  const cssCode = document.getElementById("css-code");
-  const jsCode = document.getElementById("js-code");
-
-  htmlCode.addEventListener("input", () => {
-    output(htmlCode.value, cssCode.value, jsCode.value);
-    htmlCode.style.textDecoration = "none";
-  });
-  cssCode.addEventListener("input", () => {
-    output(htmlCode.value, cssCode.value, jsCode.value);
-    cssCode.style.textDecoration = "none";
-  });
-  jsCode.addEventListener("input", () => {
-    output(htmlCode.value, cssCode.value, jsCode.value);
-    jsCode.style.textDecoration = "none";
-  });
+if (user_id !== null) {
+} else {
+  location.href = baceURL + "solicode/";
 }
-
-function output(html = "", css = "", js = "") {
-  const outputCode = document.getElementById("output");
-  outputCode.contentDocument.body.innerHTML = `${html}<style>${css}</style>`;
-  outputCode.contentWindow.eval(js);
-
-  console.log();
-}
-
-// if (user_id !== null) {
-// } else {
-//   location.href = "http://localhost/projects/solicode/";
-// }

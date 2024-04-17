@@ -1,3 +1,5 @@
+const baceURL="http://localhost/projects/PFE/"
+
 function setUserName(userName, imgURL) {
   document.getElementById("user-name").innerHTML = userName;
   document.getElementById("user-img").src = imgURL;
@@ -40,4 +42,5 @@ export {
   setUserName,
   getData,
   sendData,
+  baceURL
 };

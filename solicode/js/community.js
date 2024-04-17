@@ -1,4 +1,5 @@
 import {
+  baceURL,
   closeBtnFun,
   openWorkSection,
   closeWorkSection,
@@ -17,12 +18,12 @@ const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
 
 const communityURL =
-  "http://localhost/projects/solicode/backend/api/community.php";
-const commentURL = "http://localhost/projects/solicode/backend/api/comment.php";
+  baceURL+"solicode/backend/api/community.php";
+const commentURL = baceURL+"solicode/backend/api/comment.php";
 
 if (user_id !== null) {
 } else {
-  location.href = "http://localhost/projects/solicode/";
+  location.href = baceURL+"solicode/";
 }
 
 closeBtnFun();

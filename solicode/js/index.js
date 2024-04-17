@@ -1,3 +1,8 @@
+import {baceURL} from "./functions.js";
+
+const loginURL=baceURL+"/solicode/backend/api/login.php"
+const signupURL=baceURL+"/solicode/backend/api/signup.php"
+
 if (sessionStorage.getItem("user_id")) {
   window.location.href = "./student/yourTaskes.html";
 }
@@ -31,7 +36,6 @@ function active(activeLogin, activeSignup) {
 }
 
 async function login() {
-  const url = "http://localhost/projects/solicode/backend/api/login.php";
   const email = document.getElementById("login_email");
   const pwd = document.getElementById("login_pwd");
   const msg = document.getElementById("msg");
@@ -40,7 +44,7 @@ async function login() {
       email: email.value,
       pwd: pwd.value,
     };
-    const req = await fetch(url, {
+    const req = await fetch(loginURL, {
       method: "POST",
       headers: { "Content-Type": "Application/json" },
       body: JSON.stringify(obj),
@@ -57,7 +61,6 @@ async function login() {
 }
 
 async function signup() {
-  const url = "http://localhost/projects/solicode/backend/api/signup.php";
   const email = document.getElementById("email");
   const fullName = document.getElementById("full_name");
   const classId = document.getElementById("class_id");
@@ -74,7 +77,7 @@ async function signup() {
       email: email.value,
       pwd: pwd.value,
     };
-    const req = await fetch(url, {
+    const req = await fetch(signupURL, {
       method: "POST",
       headers: { "Content-Type": "Application/json" },
       body: JSON.stringify(obj),

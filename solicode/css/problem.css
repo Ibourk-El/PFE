@@ -72,65 +72,55 @@
   position: absolute;
 }
 
-.editor {
-  width: 100%;
-  height: calc(100vh - 20px);
+.editor-box {
   margin-top: 30px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  width: 90%;
 }
 
-.editor .input {
-  width: 40%;
-  height: 100%;
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-}
-
-.editor .input main {
+.editor-box .editor {
   width: 100%;
-  margin-bottom: 1%;
+  min-height:200px ;
+  /* height: fit-content; */
 }
-.editor .input main .title {
+
+.editor-box .editor .editor-body{
+  min-height:200px ;
+}
+
+.editor-body{
+  height: 100%;
+  width: 100%;
+}
+
+.editor-header{
   background-color: var(--gray-midel);
-  display: flex;
-  justify-content: space-between;
 }
 
-.editor .input main .title * {
-  padding: 5px 10px;
-  cursor: pointer;
-}
 
-.editor .input main .title .icon {
-  transform: rotateZ(-90deg);
-}
-.editor .input main .title .icon.open {
-  transform: rotateZ(90deg);
-}
-
-.editor .input main .title .icon:hover {
-  background-color: white;
-}
-
-.editor .input main textarea {
+.editor-box .output-code {
+  margin-top: 10px;
   width: 100%;
-  height: calc(100% - 36px);
-  background-color: #111;
-  color: gold;
-  /* padding: 10px; */
+  height: 100vh;
 }
 
-.editor .output-code {
-  width: 59%;
-  height: 100%;
-}
-
-.editor .output-code iframe {
+.editor-box .output-code iframe {
   width: 100%;
   background-color: #fff;
   height: 100%;
   border: 5px solid var(--gray-dark);
-  resize: both;
+  resize: horizontal;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--gray-midel);
+  font-weight: 600;
+  color: var(--main-color);
+  transition: 0.5s;
+  margin-top: 10px;
+}
+button:hover {
+  background-color: var(--main-color);
+  color: white;
 }

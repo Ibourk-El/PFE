@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./../css/global.css" />
     <link rel="stylesheet" href="./../css/problem.css" />
+    <!-- Ace Editor Styles -->
+    <link rel="stylesheet" href="/path/to/ace-builds/src-noconflict/theme-monokai.css" />
+
     <title>Document</title>
   </head>
   <body>
@@ -56,20 +59,14 @@
             <tr>
               <th>1</th>
               <th class="pro-title">Lorem ipsum dolor sit amet.</th>
-              <th class="CSS">CSS</th>
-              <th>58%</th>
-            </tr>
-            <tr>
-              <th>1</th>
-              <th class="pro-title">Lorem ipsum dolor sit amet.</th>
-              <th class="HTML">HTML</th>
+              <th class="CSS">PHP</th>
               <th>58%</th>
             </tr>
           </table>
         </div>
       </article>
     </section>
-    <section class="work" id="work">
+    <section class="work open" id="work">
       <button class="close-btn" id="close-btn">Close</button>
       <div class="container">
         <h3 class="challenge-title">
@@ -89,36 +86,30 @@
             <img src="./../img/task project 2.png" alt="" />
           </div>
         </div>
-
-        <section class="editor">
-          <div class="input" id="inputsBox">
-            <!-- <main class="code-box">
-              <nav class="title">
-                <span class="text">HTML</span><i class="icon open">></i>
-              </nav>
-              <textarea id="html-code"></textarea>
-            </main>
-            <main class="code-box">
-              <nav class="title">
-                <span class="text">CSS</span><i class="icon open">></i>
-              </nav>
-              <textarea id="css-code"></textarea>
-            </main>
-            <main class="code-box">
-              <nav class="title">
-                <span class="text">JS</span><i class="icon open">></i>
-              </nav>
-              <textarea id="js-code"></textarea>
-            </main> -->
+        <!-- editor element -->
+        <section class="editor-box">
+          <div class="editor">
+            <header class="editor-header">
+              <label for="lang">Language: </label>
+              <select name="lang" id="lang">
+                <option value="javascript">JS</option>
+                <option value="php">PHP</option>
+              </select>
+            </header>
+            <!-- editor -->
+            <main class="editor-body"  id="editor"></main>
           </div>
+          <button id="run-editor-btn">RUN</button>
           <div class="output-code">
             <iframe src="" frameborder="output" id="output">test</iframe>
           </div>
         </section>
       </div>
     </section>
-
+    
     <script type="module" src="./../js/functions.js"></script>
+    <script type="text/javascript" charset="utf-8" src="./../js/src/ace.js"></script>
+    <script src="./../js/aceEditor.js"></script>
     <script type="module" src="./../js/challenge.js"></script>
   </body>
 </html>

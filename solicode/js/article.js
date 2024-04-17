@@ -1,4 +1,5 @@
 import {
+  baceURL,
   closeBtnFun,
   openWorkSection,
   setUserName,
@@ -18,8 +19,8 @@ const user_id = sessionStorage.getItem("user_id");
 const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
 
-const articleURL = "http://localhost/projects/solicode/backend/api/article.php";
-const commentURL = "http://localhost/projects/solicode/backend/api/comment.php";
+const articleURL = baceURL+"solicode/backend/api/article.php";
+const commentURL = baceURL+"/solicode/backend/api/comment.php";
 
 // if user id is not in session
 if (user_id !== null) getAllArticles();

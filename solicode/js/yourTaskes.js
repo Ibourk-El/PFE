@@ -1,4 +1,5 @@
 import {
+  baceURL,
   closeBtnFun,
   openWorkSection,
   setUserName,
@@ -11,8 +12,8 @@ const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
 
 const usertaskURL =
-  "http://localhost/projects/solicode/backend/api/userTask.php";
-const taskURL = "http://localhost/projects/solicode/backend/api/task.php";
+  baceURL+"solicode/backend/api/userTask.php";
+const taskURL = baceURL+"solicode/backend/api/task.php";
 
 // fun
 
