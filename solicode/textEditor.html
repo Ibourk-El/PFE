@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css"
+      rel="stylesheet"
+    />
+
+    <div id="editor">
+      <h2>Demo Content</h2>
+      <p>Preset build with <code>snow</code> theme, and some common formats.</p>
+    </div>
+    <button id="b">click</button>
+
+    <script>
+      const quill = new Quill("#editor", {
+        theme: "snow",
+      });
+
+      document.getElementById("b").addEventListener("click", () => {
+        console.log(quill.getSemanticHTML(), "hello");
+      });
+    </script>
+  </body>
+</html>
