@@ -46,10 +46,11 @@
       <button class="close-btn" id="close-btn">Close</button>
       <div class="container">
         <input type="hidden" id="post_id_input" />
+        <input type="text" id="title" />
         <label for="body">post body</label>
         <textarea name="body" id="body"></textarea><br />
         <label for="file">img/video</label>
-        <input type="file" name="file" id="file" /><br />
+        <input type="file" name="file[]" id="file" /><br />
         <button id="send-btn">Send</button>
       </div>
     </section>

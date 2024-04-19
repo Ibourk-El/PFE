@@ -6,6 +6,7 @@ import {
   getData,
   sendData,
   closeWorkSection,
+  formData,
 } from "./functions.js";
 
 import { articleBody, articleComment } from "./articleElement.js";
@@ -19,13 +20,13 @@ const user_id = sessionStorage.getItem("user_id");
 const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
 
-const articleURL = baceURL+"solicode/backend/api/article.php";
-const commentURL = baceURL+"/solicode/backend/api/comment.php";
+const articleURL = baceURL + "solicode/backend/api/article.php";
+const commentURL = baceURL + "solicode/backend/api/comment.php";
 
 // if user id is not in session
 if (user_id !== null) getAllArticles();
 else {
-  location.href = "http://localhost/projects/solicode/";
+  location.href = baceURL + "/solicode/";
 }
 
 // fun
@@ -44,21 +45,22 @@ addBtn.addEventListener("click", () => {
 });
 
 sendArticleBtn.addEventListener("click", async () => {
-  const title = document.getElementById("title").value;
-  const body = document.getElementById("body").value;
-  const file = document.getElementById("file").value;
+  const title = document.getElementById("title");
+  const body = document.getElementById("body");
+  const file = document.getElementById("file").files;
 
-  if (title !== "" && body !== "") {
+  if (title.value !== "" && body.value !== "") {
     const obj = {
-      title: title,
-      body: body,
-      file_path: file,
+      title: title.value,
+      body: body.value,
       creater_id: user_id,
       creater_name: user_name,
     };
-    const res = await sendData(articleURL, "POST", obj);
+    const res = await sendData(articleURL, "POST", formData(file, obj));
     console.log(res);
     closeWorkSection();
+    title.value = "";
+    body.value = "";
   } else {
     console.log("same field is empty");
   }
@@ -90,7 +92,7 @@ sendCommentBtn.addEventListener("click", async () => {
       catigory_id: sendCommentBtn.getAttribute("data-id"),
     };
     body.value = "";
-    const res = await sendData(commentURL, "POST", obj);
+    const res = await sendData(commentURL, "POST", obj, "json");
     comments.innerHTML = articleComment(obj) + comments.innerHTML;
   } else {
     console.log("the comment is empty");

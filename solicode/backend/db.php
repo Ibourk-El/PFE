@@ -42,7 +42,7 @@
         $result=$in->fetchAll(PDO::FETCH_ASSOC);
         return ["data"=>$result];
       }catch(PDOException $e){
-        echo "Field To select Data";
+        echo ["data"=>[$e->getMessage()]];
       }
     }
 
@@ -56,7 +56,7 @@
         $result=$in->fetchAll(PDO::FETCH_ASSOC);
         return $result;
       }catch(PDOException $e){
-        echo "Field To select Data";
+        echo ["data"=>[$e->getMessage()]];
       }
     }
 

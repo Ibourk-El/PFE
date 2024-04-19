@@ -1,4 +1,6 @@
 <?php
+require_once "./../db.php";
+require_once "./../fileHandler/filehandler.php";
 
   header("Content-Type: Application/json");
   header('HTTP/1.0 200 ok');
@@ -8,11 +10,12 @@
   $pwd= "";
   $tbname= "post";
 
-  require_once "./../db.php";
-  $db= new Database($user,$pwd);
+  $db= new Database($user,$pwd);  
 
   switch($_SERVER["REQUEST_METHOD"]){
     case "POST":{
+      $data=[...(array)json_decode($_POST["data"])];
+      $data["file_path"]=handelImages($_FILES["file"]);
       $query= "INSERT INTO $tbname(post_body,file_path,likes,creater_id,creater_name) VALUES (:post_body,:file_path,:likes,:creater_id,:creater_name)";
       $db->insert($query,[...$data,"likes"=>json_encode($data["likes"])]);
       echo json_encode(["status"=>201,"msg"=>"the post is add successfully"]);
@@ -59,7 +62,9 @@
       
       if(count($re["students_IDs"])>0){
         foreach($re["students_IDs"] as $v){
-          if($v==$data["user_id"]) exit;
+          if($v==$data["user_id"])
+            echo json_encode(["msg"=>"already"]);
+          exit;
         }
       }
       array_push($re["students_IDs"],$data["user_id"]);

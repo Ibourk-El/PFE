@@ -1,6 +1,7 @@
 <?php
 
 require_once "./../db.php";
+require_once "./../fileHandler/filehandler.php";
 
 $user="root";
 $pwd="";
@@ -21,6 +22,7 @@ switch($_SERVER["REQUEST_METHOD"]){
 
   case "POST":{
     // get all students that have the same class id
+    $data=(array) json_decode($_POST["data"]);
     $query="SELECT id,full_name,tasks FROM student WHERE class_id=:class_id";
     $re=[...$db->selectElement($query,["class_id"=>$data["class_id"]])["data"]];
     $student=[];
@@ -30,26 +32,26 @@ switch($_SERVER["REQUEST_METHOD"]){
       array_push($student,$userData);
     }
 
-    // add students to the task table
-    $dt=[...$data,"student"=>json_encode($student)];
+    // add students to the task table and add task to task table
+    $imags=[...handelImages($_FILES["file"])];
+    $dt=[...$data,"student"=>json_encode($student),"file_path"=>json_encode($imags)];
     $insertQuery="INSERT INTO task(title,file_path,student,creater_id,class_id,task_body)
                   VALUES (:title,:file_path,:student,:creater_id,:class_id,:task_body)";
     $db->insert($insertQuery,$dt);
     $task_id=$db->getLastId();
 
-    // add tasks to student table 
+    // add tasks to tasks column in student table 
     foreach($re as $v){
-      print_r($v);
       $q="UPDATE student SET tasks=:tasks WHERE id=:id";
       if(isset($v["tasks"])){
         $d=json_encode([["task_id"=>$task_id,"task_title"=>$data["title"],"state"=>"nothing"],...(array) json_decode($v["tasks"])]);
       }
       else{
-        $d=json_encode([["task_id"=>$task_id,"state"=>"nothing"]]);
+        $d=json_encode([["task_id"=>$task_id,"task_title"=>$data["title"],"state"=>"nothing"]]);
       }
       $db->update($q,["tasks"=>$d,"id"=>$v["id"]]);
     }
-    echo json_encode(["status"=>201]);
+    echo json_encode(["status"=>201,"lastId"=>$task_id]);
     break;
   }
 

@@ -11,9 +11,8 @@ const user_id = sessionStorage.getItem("user_id");
 const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
 
-const usertaskURL =
-  baceURL+"solicode/backend/api/userTask.php";
-const taskURL = baceURL+"solicode/backend/api/task.php";
+const usertaskURL = baceURL + "solicode/backend/api/userTask.php";
+const taskURL = baceURL + "solicode/backend/api/task.php";
 
 // fun
 
@@ -85,7 +84,7 @@ function drop(e) {
         return;
       });
     }
-    fetchData(obj);
+    fetchData(obj, "json");
   }
 }
 
@@ -102,8 +101,8 @@ function addTaskState(boxId, taskId) {
 
 // fetch data
 
-async function fetchData(obj) {
-  await sendData(taskURL, "PATCH", obj);
+async function fetchData(obj, f) {
+  console.log(await sendData(taskURL, "PATCH", obj, f));
 }
 
 // get task

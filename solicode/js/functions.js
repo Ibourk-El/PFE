@@ -1,4 +1,4 @@
-const baceURL="http://localhost/projects/PFE/"
+const baceURL = "http://localhost/projects/PFE/";
 
 function setUserName(userName, imgURL) {
   document.getElementById("user-name").innerHTML = userName;
@@ -26,13 +26,36 @@ async function getData(url, query) {
   const req = await fetch(url + query);
   return await req.json();
 }
-async function sendData(url, method, data) {
-  const req = await fetch(url, {
-    method: method,
-    headers: { "Content-type": "Application/json" },
-    body: JSON.stringify(data),
-  });
+
+async function sendData(url, method, data, format) {
+  let reqElemment;
+  if (format === "json") {
+    reqElemment = {
+      method: method,
+      headers: { "Content-type": "Application/json" },
+      body: JSON.stringify(data),
+    };
+  } else {
+    reqElemment = {
+      method: method,
+      body: data,
+    };
+  }
+
+  const req = await fetch(url, reqElemment);
   return await req.json();
+}
+
+function formData(files, data) {
+  const formData = new FormData();
+
+  for (let i = 0; i < files.length; i++) {
+    formData.append("file[]", files[i]);
+  }
+
+  formData.append("data", JSON.stringify(data));
+
+  return formData;
 }
 
 export {
@@ -42,5 +65,6 @@ export {
   setUserName,
   getData,
   sendData,
-  baceURL
+  formData,
+  baceURL,
 };
