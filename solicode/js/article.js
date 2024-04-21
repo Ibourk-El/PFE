@@ -7,6 +7,7 @@ import {
   sendData,
   closeWorkSection,
   formData,
+  textEditor,
 } from "./functions.js";
 
 import { articleBody, articleComment } from "./articleElement.js";
@@ -22,6 +23,8 @@ const user_img = sessionStorage.getItem("user_img");
 
 const articleURL = baceURL + "solicode/backend/api/article.php";
 const commentURL = baceURL + "solicode/backend/api/comment.php";
+  
+const txtEditor = textEditor("editor");
 
 // if user id is not in session
 if (user_id !== null) getAllArticles();
@@ -46,13 +49,14 @@ addBtn.addEventListener("click", () => {
 
 sendArticleBtn.addEventListener("click", async () => {
   const title = document.getElementById("title");
-  const body = document.getElementById("body");
+  // const body = document.getElementById("body");
+  const body = txtEditor.getSemanticHTML();
   const file = document.getElementById("file").files;
 
   if (title.value !== "" && body.value !== "") {
     const obj = {
       title: title.value,
-      body: body.value,
+      body: body,
       creater_id: user_id,
       creater_name: user_name,
     };
@@ -60,7 +64,6 @@ sendArticleBtn.addEventListener("click", async () => {
     console.log(res);
     closeWorkSection();
     title.value = "";
-    body.value = "";
   } else {
     console.log("same field is empty");
   }

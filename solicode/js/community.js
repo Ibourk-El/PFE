@@ -7,6 +7,7 @@ import {
   getData,
   sendData,
   formData,
+  textEditor,
 } from "./functions.js";
 import { post, setAllComment } from "./postElement.js";
 
@@ -25,10 +26,14 @@ if (user_id !== null) {
 } else {
   location.href = baceURL + "solicode/";
 }
-
+//
 closeBtnFun();
 setUserName(user_name, user_img);
 getAllPosts();
+
+const txtEditor = textEditor("editor");
+
+//
 
 async function getAllPosts() {
   const res = await getData(communityURL, "");
@@ -69,14 +74,14 @@ function setPosts(data, activeMenu) {
 addBtn.addEventListener("click", openWorkSection);
 
 sendPostBtn.addEventListener("click", async () => {
-  const body = document.getElementById("body");
+  const body = txtEditor.getSemanticHTML();
   const file = document.getElementById("file").files;
 
   if (body.value !== "") {
     if (sendPostBtn.innerHTML === "Send") {
       // to create the post
       const obj = {
-        post_body: body.value,
+        post_body: body,
         creater_id: user_id,
         creater_name: user_name,
         likes: {
@@ -96,8 +101,6 @@ sendPostBtn.addEventListener("click", async () => {
       console.log(res);
     }
     sendPostBtn.innerHTML = "Send";
-    body.value = "";
-    file.value = "";
     closeWorkSection();
   } else {
     console.log("same field is empty");
@@ -111,6 +114,16 @@ filterBtn.addEventListener("click", async () => {
   );
   setPosts(res.data, "active");
 });
+
+// get all comment
+async function getComments(id, con) {
+  const res = await getData(
+    commentURL,
+    "?catigory_id=" + id + "&catigory=post"
+  );
+  // add comment to the post
+  setAllComment(res.data, con);
+}
 
 function sendComment(parent) {
   const sendCommentBtn = parent.querySelector("#send-comment");
@@ -152,16 +165,6 @@ function addClickTOcommentBtn() {
       );
     });
   });
-}
-
-// get all comment
-async function getComments(id, con) {
-  const res = await getData(
-    commentURL,
-    "?catigory_id=" + id + "&catigory=post"
-  );
-  // add comment to the post
-  setAllComment(res.data, con);
 }
 
 function addLikeEvent() {

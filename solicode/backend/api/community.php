@@ -1,6 +1,6 @@
 <?php
 require_once "./../db.php";
-require_once "./../fileHandler/filehandler.php";
+require_once "./../handler/image.handler.php";
 
   header("Content-Type: Application/json");
   header('HTTP/1.0 200 ok');

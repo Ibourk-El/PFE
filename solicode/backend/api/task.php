@@ -1,7 +1,7 @@
 <?php
 
 require_once "./../db.php";
-require_once "./../fileHandler/filehandler.php";
+require_once "./../handler/image.handler.php";
 
 $user="root";
 $pwd="";
@@ -33,7 +33,7 @@ switch($_SERVER["REQUEST_METHOD"]){
     }
 
     // add students to the task table and add task to task table
-    $imags=[...handelImages($_FILES["file"])];
+    $imags=handelImages($_FILES["file"]);
     $dt=[...$data,"student"=>json_encode($student),"file_path"=>json_encode($imags)];
     $insertQuery="INSERT INTO task(title,file_path,student,creater_id,class_id,task_body)
                   VALUES (:title,:file_path,:student,:creater_id,:class_id,:task_body)";

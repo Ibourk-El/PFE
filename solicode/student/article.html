@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- text editor likes quill -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css"
+      rel="stylesheet"
+    />
+    <!--  -->
     <link rel="stylesheet" href="./../css/global.css" />
     <link rel="stylesheet" href="./../css/article.css" />
     <title>Document</title>
@@ -91,7 +98,9 @@
         <label for="title">title</label>
         <input type="text" name="title" id="title" /><br />
         <label for="body">post body</label>
-        <textarea name="body" id="body"></textarea><br />
+        <!-- <textarea name="body" id="body"></textarea><br /> -->
+        <div id="editor" class="textarea">
+        </div>
         <label for="file">img/video</label>
         <input type="file" name="file[]" id="file" multiple /><br />
         <button id="send">Send</button>

@@ -1,6 +1,6 @@
 <?php
   require_once "./../db.php";
-  require_once "./../fileHandler/filehandler.php";
+  require_once "./../handler/image.handler.php";
 
   header("Content-Type: Application/json");
   $data= (array) json_decode(file_get_contents("php://input"));

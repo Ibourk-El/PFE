@@ -6,7 +6,10 @@
     <link rel="stylesheet" href="./../css/global.css" />
     <link rel="stylesheet" href="./../css/problem.css" />
     <!-- Ace Editor Styles -->
-    <link rel="stylesheet" href="/path/to/ace-builds/src-noconflict/theme-monokai.css" />
+    <link
+      rel="stylesheet"
+      href="/path/to/ace-builds/src-noconflict/theme-monokai.css"
+    />
 
     <title>Document</title>
   </head>
@@ -50,30 +53,21 @@
               <th>Catigory</th>
               <th>Solved</th>
             </tr>
-            <tr>
-              <th>1</th>
-              <th class="pro-title">Lorem ipsum dolor sit amet.</th>
-              <th class="JS">JS</th>
-              <th class="solved">58%</th>
-            </tr>
-            <tr>
-              <th>1</th>
-              <th class="pro-title">Lorem ipsum dolor sit amet.</th>
-              <th class="CSS">PHP</th>
-              <th>58%</th>
-            </tr>
+            <tbody id="tbody">
+            </tbody>
           </table>
         </div>
       </article>
     </section>
-    <section class="work open" id="work">
+    <section class="work" id="work">
       <button class="close-btn" id="close-btn">Close</button>
+      <input type="hidden" id="problemId" value="1" />
       <div class="container">
-        <h3 class="challenge-title">
+        <h3 class="challenge-title" id="challenge-title">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, rem.
         </h3>
         <div class="challenge-body">
-          <p class="text">
+          <p class="text" id="challenge-body">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi hic
             dolor, id accusamus cupiditate consequatur minima ab, temporibus
             exercitationem vero eos laudantium assumenda voluptate reiciendis
@@ -97,18 +91,20 @@
               </select>
             </header>
             <!-- editor -->
-            <main class="editor-body"  id="editor"></main>
+            <main class="editor-body" id="editor"></main>
           </div>
           <button id="run-editor-btn">RUN</button>
-          <div class="output-code">
-            <iframe src="" frameborder="output" id="output">test</iframe>
-          </div>
+          <div class="output-code" id="output"></div>
         </section>
       </div>
     </section>
-    
+
     <script type="module" src="./../js/functions.js"></script>
-    <script type="text/javascript" charset="utf-8" src="./../js/src/ace.js"></script>
+    <script
+      type="text/javascript"
+      charset="utf-8"
+      src="./../js/src/ace.js"
+    ></script>
     <script src="./../js/aceEditor.js"></script>
     <script type="module" src="./../js/challenge.js"></script>
   </body>

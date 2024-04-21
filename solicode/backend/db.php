@@ -34,9 +34,9 @@
       }
     }
 
-    function selectAll(string $tbname){
+    function selectAll(string $tbname,string $selectElement="*"){
       try{
-        $query="SELECT * FROM $tbname ORDER BY id DESC";
+        $query="SELECT  $selectElement FROM $tbname ORDER BY id DESC";
         $in=$this->pdo->prepare($query);
         $in->execute();
         $result=$in->fetchAll(PDO::FETCH_ASSOC);

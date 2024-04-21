@@ -43,7 +43,8 @@ async function sendData(url, method, data, format) {
   }
 
   const req = await fetch(url, reqElemment);
-  return await req.json();
+  if (req.ok) return await req.json();
+  else return "connect faild";
 }
 
 function formData(files, data) {
@@ -58,6 +59,13 @@ function formData(files, data) {
   return formData;
 }
 
+function textEditor(id) {
+  const quill = new Quill(`#${id}`, {
+    theme: "snow",
+  });
+  return quill;
+}
+
 export {
   closeBtnFun,
   closeWorkSection,
@@ -67,4 +75,5 @@ export {
   sendData,
   formData,
   baceURL,
+  textEditor,
 };
