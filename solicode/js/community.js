@@ -6,6 +6,8 @@ import {
   setUserName,
   getData,
   sendData,
+  formData,
+  textEditor,
 } from "./functions.js";
 import { post, setAllComment } from "./postElement.js";
 
@@ -17,18 +19,21 @@ const user_id = sessionStorage.getItem("user_id");
 const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
 
-const communityURL =
-  baceURL+"solicode/backend/api/community.php";
-const commentURL = baceURL+"solicode/backend/api/comment.php";
+const communityURL = baceURL + "solicode/backend/api/community.php";
+const commentURL = baceURL + "solicode/backend/api/comment.php";
 
 if (user_id !== null) {
 } else {
-  location.href = baceURL+"solicode/";
+  location.href = baceURL + "solicode/";
 }
-
+//
 closeBtnFun();
 setUserName(user_name, user_img);
 getAllPosts();
+
+const txtEditor = textEditor("editor");
+
+//
 
 async function getAllPosts() {
   const res = await getData(communityURL, "");
@@ -69,15 +74,14 @@ function setPosts(data, activeMenu) {
 addBtn.addEventListener("click", openWorkSection);
 
 sendPostBtn.addEventListener("click", async () => {
-  const body = document.getElementById("body");
-  const file = document.getElementById("file");
+  const body = txtEditor.getSemanticHTML();
+  const file = document.getElementById("file").files;
 
   if (body.value !== "") {
     if (sendPostBtn.innerHTML === "Send") {
       // to create the post
       const obj = {
-        post_body: body.value,
-        file_path: file.value,
+        post_body: body,
         creater_id: user_id,
         creater_name: user_name,
         likes: {
@@ -85,7 +89,7 @@ sendPostBtn.addEventListener("click", async () => {
           students_IDs: [],
         },
       };
-      const res = await sendData(communityURL, "POST", obj);
+      const res = await sendData(communityURL, "POST", formData(file, obj), "");
     } else {
       // to update the post
       const obj = {
@@ -93,12 +97,10 @@ sendPostBtn.addEventListener("click", async () => {
         post_body: body.value,
         file_path: file.value,
       };
-      const res = await sendData(communityURL, "PUT", obj);
+      const res = await sendData(communityURL, "PUT", obj, "json");
       console.log(res);
     }
     sendPostBtn.innerHTML = "Send";
-    body.value = "";
-    file.value = "";
     closeWorkSection();
   } else {
     console.log("same field is empty");
@@ -112,6 +114,16 @@ filterBtn.addEventListener("click", async () => {
   );
   setPosts(res.data, "active");
 });
+
+// get all comment
+async function getComments(id, con) {
+  const res = await getData(
+    commentURL,
+    "?catigory_id=" + id + "&catigory=post"
+  );
+  // add comment to the post
+  setAllComment(res.data, con);
+}
 
 function sendComment(parent) {
   const sendCommentBtn = parent.querySelector("#send-comment");
@@ -132,7 +144,7 @@ function sendComment(parent) {
       );
       parent.querySelector("#comment-body").value = "";
       // send req
-      await sendData(commentURL, "POST", obj);
+      await sendData(commentURL, "POST", obj, "json");
     } else {
       console.log("the comment is empty");
     }
@@ -155,26 +167,17 @@ function addClickTOcommentBtn() {
   });
 }
 
-// get all comment
-async function getComments(id, con) {
-  const res = await getData(
-    commentURL,
-    "?catigory_id=" + id + "&catigory=post"
-  );
-  // add comment to the post
-  setAllComment(res.data, con);
-}
-
 function addLikeEvent() {
   const likeBtn = document.querySelectorAll(".likes");
   likeBtn.forEach((el) => {
-    el.addEventListener("click", (e) => {
+    el.addEventListener("click", async (e) => {
       const parent = e.target.parentElement.parentElement.parentElement;
       // change style and add number of likes
       const numOflikes = +e.target.children[0].innerHTML;
-      e.target.children[0].innerHTML = numOflikes + 1;
       e.target.classList.add("add-like");
-      updatePostLikes(parent.id, numOflikes);
+      let res = await updatePostLikes(parent.id, numOflikes);
+      if (res.msg !== "already")
+        e.target.children[0].innerHTML = numOflikes + 1;
     });
   });
 }
@@ -185,7 +188,7 @@ async function updatePostLikes(pId, pLikes) {
     user_id: user_id,
     likes: ++pLikes,
   };
-  await sendData(communityURL, "PATCH", obj);
+  return await sendData(communityURL, "PATCH", obj, "json");
 }
 
 function iconMenuEvent() {
@@ -218,7 +221,8 @@ function deletePostEvent(parent, id) {
     const postId = parent.parentElement.parentElement.parentElement.id;
     const res = await sendData(communityURL, "DELETE", { id: postId });
     console.log(res);
-    parent.children[1].classList.toggle("active");  });
+    parent.children[1].classList.toggle("active");
+  });
 }
 
 function setDataInEditBox(data) {

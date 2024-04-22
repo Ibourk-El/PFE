@@ -19,6 +19,7 @@
   --green-light: #c9ffd5;
   --green-dark: #008000;
   --main-color: #006094;
+  --main-color-opacity: #006094d3;
   --text-color: #3d3d3d;
 }
 
@@ -138,6 +139,7 @@ article {
   margin-bottom: 10px;
   background-color: var(--main-color);
   color: white;
+  border: 1px solid white;
 }
 .btns button:hover {
   animation: vibration 0.5s linear;
@@ -224,7 +226,7 @@ article {
   left: 0%;
   width: 0%;
   height: 0vh;
-  background-color: var(--gray-light-opacity);
+  background-color: var(--main-color);
   overflow: hidden;
   transition: 0.5s;
 }

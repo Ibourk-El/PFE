@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- text editorlikes -->
+
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css"
+      rel="stylesheet"
+    />
+
+    <!--  -->
     <link rel="stylesheet" href="./../css/global.css" />
     <link rel="stylesheet" href="./../css/community.css" />
     <title>Document</title>
@@ -46,10 +55,13 @@
       <button class="close-btn" id="close-btn">Close</button>
       <div class="container">
         <input type="hidden" id="post_id_input" />
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" />
         <label for="body">post body</label>
-        <textarea name="body" id="body"></textarea><br />
+        <!-- <textarea name="body" id="body"></textarea><br /> -->
+        <div id="editor" class="textarea"></div>
         <label for="file">img/video</label>
-        <input type="file" name="file" id="file" /><br />
+        <input type="file" name="file[]" id="file" /><br />
         <button id="send-btn">Send</button>
       </div>
     </section>
@@ -58,8 +70,8 @@
       <button id="add-btn">+</button>
     </div>
 
-    <script type="module" src="./../js/community.js"></script>
     <script type="module" src="./../js/functions.js"></script>
     <script type="module" src="./../js/postElement.js"></script>
+    <script type="module" src="./../js/community.js"></script>
   </body>
 </html>

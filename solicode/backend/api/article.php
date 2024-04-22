@@ -1,4 +1,6 @@
 <?php
+  require_once "./../db.php";
+  require_once "./../handler/image.handler.php";
 
   header("Content-Type: Application/json");
   $data= (array) json_decode(file_get_contents("php://input"));
@@ -7,11 +9,12 @@
   $pwd= "";
   $tbname= "articles";
 
-  require_once "./../db.php";
   $db= new Database($user,$pwd);
 
   switch($_SERVER["REQUEST_METHOD"]){
     case "POST":{
+      $data=[...(array)json_decode($_POST["data"])];
+      $data["file_path"]=handelImages($_FILES["file"]);
       $query= "INSERT INTO $tbname(title,body,file_path,creater_id,creater_name) VALUES (:title,:body,:file_path,:creater_id,:creater_name)";
       $db->insert($query,$data);
       echo json_encode(["status"=>201,"msg"=>"the article is add successfully"]);

@@ -1,4 +1,4 @@
-article{
+article {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,13 +11,14 @@ article{
   color: var(--gray-dark);
 }
 
-input{
+input {
   padding: 10px;
 }
-#title{
-  width: 400px;
+#title {
+  width: 100%;
 }
 
+<<<<<<< HEAD
 .container #text-editor {
   width: 400px;
   height: 400px;
@@ -32,6 +33,17 @@ input{
 } */
 
 .container button#send {
+=======
+.container .textarea {
+  width: 100%;
+  height: 600px;
+  padding: 10px;
+  background-color: white;
+  border: none;
+}
+
+.container button#send-btn {
+>>>>>>> 8d87039d160802682288c52b2c527608ec03607d
   width: 400px;
   padding: 10px;
   background-color: var(--gray-midel);
@@ -39,7 +51,11 @@ input{
   color: var(--main-color);
   transition: 0.5s;
 }
+<<<<<<< HEAD
 .container button#send:hover {
+=======
+.container button#send-btn:hover {
+>>>>>>> 8d87039d160802682288c52b2c527608ec03607d
   background-color: var(--main-color);
   color: white;
 }

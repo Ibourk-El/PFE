@@ -34,15 +34,15 @@
       }
     }
 
-    function selectAll(string $tbname){
+    function selectAll(string $tbname,string $selectElement="*"){
       try{
-        $query="SELECT * FROM $tbname ORDER BY id DESC";
+        $query="SELECT  $selectElement FROM $tbname ORDER BY id DESC";
         $in=$this->pdo->prepare($query);
         $in->execute();
         $result=$in->fetchAll(PDO::FETCH_ASSOC);
         return ["data"=>$result];
       }catch(PDOException $e){
-        echo "Field To select Data";
+        echo ["data"=>[$e->getMessage()]];
       }
     }
 
@@ -56,7 +56,7 @@
         $result=$in->fetchAll(PDO::FETCH_ASSOC);
         return $result;
       }catch(PDOException $e){
-        echo "Field To select Data";
+        echo ["data"=>[$e->getMessage()]];
       }
     }
 

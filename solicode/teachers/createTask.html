@@ -42,13 +42,14 @@
     <article class="container">
       <label for="title">Title</label>
       <input name="title" id="title" /><br />
-      <!-- <label for="body">Task Body</label>
-      <textarea name="task_body" id="task_body"></textarea><br />
+      <label for="body">Task Body</label>
+      <!-- <textarea name="task_body" id="task_body"></textarea><br /> -->
+      <div id="editor" class="textarea">
+      </div>
       <label for="file_path">img</label>
-      <input type="file" name="file_path" id="file_path" /><br />
-      <label for="class-id">Class Id</label>
-      <input name="class_id" id="class_id" /><br /> -->
-      <div id="text-editor" class="text-editor"></div>
+      <input type="file" name="file[]" id="files" multiple /><br />
+      <label for="class_id">Class Id</label>
+      <input name="class_id" id="class_id" /><br />
       <button id="send-btn">Send</button>
       <p id="msg"></p>
     </article>
@@ -56,5 +57,7 @@
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
   <script src="./../js/textEditor.js"></script>
   <script src="./../js/createTask.js"></script>
+  <script type="module" src="./../js/functions.js"></script>
+  <script type="module" src="./../js/createTask.js"></script>
   </body>
 </html>

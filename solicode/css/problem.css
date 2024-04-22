@@ -24,12 +24,10 @@
 .problem .container table tr th.JS {
   color: #ebc804;
 }
-.problem .container table tr th.CSS {
-  color: #0026ff;
+.problem .container table tr th.php {
+  color: #3c17c0;
 }
-.problem .container table tr th.HTML {
-  color: #ff1717;
-}
+
 .problem .container table tr th:hover {
   cursor: pointer;
 }
@@ -75,40 +73,41 @@
 .editor-box {
   margin-top: 30px;
   width: 90%;
+  height: 100vh;
 }
 
 .editor-box .editor {
   width: 100%;
-  min-height:200px ;
+  min-height: 200px;
   /* height: fit-content; */
 }
 
-.editor-box .editor .editor-body{
-  min-height:200px ;
+.editor-box .editor .editor-body {
+  min-height: 200px;
 }
 
-.editor-body{
+.editor-body {
   height: 100%;
   width: 100%;
 }
 
-.editor-header{
+.editor-header {
   background-color: var(--gray-midel);
 }
-
 
 .editor-box .output-code {
   margin-top: 10px;
   width: 100%;
-  height: 100vh;
+  height: fit-content;
+  overflow-y: scroll;
+  background-color: #212121;
+  color: white;
+  transition: all 1s;
 }
 
-.editor-box .output-code iframe {
-  width: 100%;
-  background-color: #fff;
-  height: 100%;
-  border: 5px solid var(--gray-dark);
-  resize: horizontal;
+.editor-box .output-code p {
+  padding: 10px;
+  background-color: #212125;
 }
 
 button {
@@ -123,4 +122,11 @@ button {
 button:hover {
   background-color: var(--main-color);
   color: white;
+}
+
+.valid {
+  color: var(--green-dark);
+}
+.invalid {
+  color: var(--red-dark);
 }
