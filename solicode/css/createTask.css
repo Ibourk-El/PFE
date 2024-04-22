@@ -18,13 +18,20 @@ input{
   width: 400px;
 }
 
-.container textarea {
+.container #text-editor {
   width: 400px;
   height: 400px;
   padding: 10px;
+  background-color: white;
+  margin-top: 10px;
+  border: none;
 }
 
-.container button {
+/* .text-editor{
+  width: 100%;
+} */
+
+.container button#send {
   width: 400px;
   padding: 10px;
   background-color: var(--gray-midel);
@@ -32,7 +39,7 @@ input{
   color: var(--main-color);
   transition: 0.5s;
 }
-.container button:hover {
+.container button#send:hover {
   background-color: var(--main-color);
   color: white;
 }

@@ -141,9 +141,11 @@
   width: 400px;
   height: 400px;
   padding: 10px;
+  background-color: white;
 }
 
-.article-form.container button {
+.article-form.container button#send {
+  margin-top: 10px;
   width: 400px;
   padding: 10px;
   background-color: var(--gray-midel);
@@ -152,7 +154,7 @@
   transition: 0.5s;
 }
 
-.article-form.container button:hover {
+.article-form.container button#send:hover {
   background-color: var(--main-color);
   color: white;
 }
@@ -160,3 +162,8 @@
 .container {
   display: none;
 }
+
+/* .text-editor{
+  width: 100%;
+  height: 100%;
+} */
