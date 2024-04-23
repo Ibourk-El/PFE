@@ -122,11 +122,19 @@
   height: 600px;
   padding: 10px;
   background-color: white;
+<<<<<<< HEAD
+}
+
+.article-form.container button#send {
+  margin-top: 10px;
+  width: 400px;
+=======
   border: none;
 }
 
 .article-form.container button#send {
   width: 100%;
+>>>>>>> 8d87039d160802682288c52b2c527608ec03607d
   padding: 10px;
   background-color: var(--gray-midel);
   font-weight: 600;
@@ -142,3 +150,8 @@
 .container {
   display: none;
 }
+
+/* .text-editor{
+  width: 100%;
+  height: 100%;
+} */
