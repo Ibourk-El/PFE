@@ -1,7 +1,7 @@
-import {baceURL} from "./functions.js";
+import { baceURL, sendData, resetImagePath } from "./functions.js";
 
-const loginURL=baceURL+"/solicode/backend/api/login.php"
-const signupURL=baceURL+"/solicode/backend/api/signup.php"
+const loginURL = baceURL + "solicode/backend/api/login.php";
+const signupURL = baceURL + "solicode/backend/api/signup.php";
 
 if (sessionStorage.getItem("user_id")) {
   window.location.href = "./student/yourTaskes.html";
@@ -29,10 +29,8 @@ signupBtn.addEventListener("click", () => {
 });
 
 function active(activeLogin, activeSignup) {
-  const signupBox = document.getElementById("signup");
-  const loginBox = document.getElementById("login");
-  loginBox.style.display = activeLogin;
-  signupBox.style.display = activeSignup;
+  document.getElementById("signup").style.display = activeSignup;
+  document.getElementById("login").style.display = activeLogin;
 }
 
 async function login() {
@@ -44,15 +42,14 @@ async function login() {
       email: email.value,
       pwd: pwd.value,
     };
-    const req = await fetch(loginURL, {
-      method: "POST",
-      headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify(obj),
-    });
-    const res = await req.json();
+    const res = await sendData(loginURL, "POST", obj, "json");
     if (res.status === 200) {
+      console.log(obj);
       sessionStorage.setItem("user_id", res.data[0].id);
       sessionStorage.setItem("user_name", res.data[0].full_name);
+      sessionStorage.setItem("class_id", res.data[0].class_id);
+      sessionStorage.setItem("user_img", resetImagePath(res.data[0].photo));
+      sessionStorage.setItem("data", JSON.stringify(res.data[0]));
       window.location.href = "./student/yourTaskes.html";
     } else msg.innerHTML = res.msg;
   } else {
@@ -77,13 +74,10 @@ async function signup() {
       email: email.value,
       pwd: pwd.value,
     };
-    const req = await fetch(signupURL, {
-      method: "POST",
-      headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify(obj),
-    });
-    const res = await req.json();
-    console.log(res);
+    const res = await sendData(signupURL, "POST", obj, "json");
+    active("flex", "none");
+    loginBtn.innerHTML = "Send";
+    signupBtn.innerHTML = "Signup";
   } else {
     msg.innerHTML = "Some Fieldes Are Empty";
   }

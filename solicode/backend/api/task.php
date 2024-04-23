@@ -23,52 +23,42 @@ switch($_SERVER["REQUEST_METHOD"]){
   case "POST":{
     // get all students that have the same class id
     $data=(array) json_decode($_POST["data"]);
-    $query="SELECT id,full_name,tasks FROM student WHERE class_id=:class_id";
+    $query="SELECT id FROM student WHERE class_id=:class_id";
     $re=[...$db->selectElement($query,["class_id"=>$data["class_id"]])["data"]];
-    $student=[];
 
-    foreach($re as $v){
-      $userData=["student_id"=>$v["id"],"student_name"=>$v["full_name"],"state"=>"nothing"];
-      array_push($student,$userData);
-    }
-
-    // add students to the task table and add task to task table
+    // insert task
     $imags=handelImages($_FILES["file"]);
     $dt=[...$data,"student"=>json_encode($student),"file_path"=>json_encode($imags)];
-    $insertQuery="INSERT INTO task(title,file_path,student,creater_id,class_id,task_body)
-                  VALUES (:title,:file_path,:student,:creater_id,:class_id,:task_body)";
+    $insertQuery="INSERT INTO task(title,file_path,creater_id,class_id,task_body)
+                  VALUES (:title,:file_path,:creater_id,:class_id,:task_body)";
     $db->insert($insertQuery,$dt);
     $task_id=$db->getLastId();
 
-    // add tasks to tasks column in student table 
+    // add task to  student 
     foreach($re as $v){
-      $q="UPDATE student SET tasks=:tasks WHERE id=:id";
-      if(isset($v["tasks"])){
-        $d=json_encode([["task_id"=>$task_id,"task_title"=>$data["title"],"state"=>"nothing"],...(array) json_decode($v["tasks"])]);
-      }
-      else{
-        $d=json_encode([["task_id"=>$task_id,"task_title"=>$data["title"],"state"=>"nothing"]]);
-      }
-      $db->update($q,["tasks"=>$d,"id"=>$v["id"]]);
+      $q="INSERT INTo  taskstate(task_id,student_id,status) VALUES (:task_id,:student_id,:status)";
+      $dt=["task_id"=>$task_id,"student_id"=>$v,"state"=>"notStart"];
+      $db->insert($q,$dt);
+      
     }
     echo json_encode(["status"=>201,"lastId"=>$task_id]);
     break;
   }
 
-  case "DELETE":{
-    break;
-  }
-
+  
   case "PUT":{
     break;
   }
-
+  
   case "PATCH":{
     // update state of task 
-    updateStateOfTask('task','student',$data["task_id"],"student_id");
-    updateStateOfTask('student','tasks',$data["student_id"],"task_id");
+    $updateQuery="UPDATE taskstate SET status=:status ,github_url=:github_url WHERE student_id=:student_id AND task_id=:task_id" ;
+    $db->update($updateQuery,$data);
     
     echo json_encode(["status"=>202]);
+    break;
+  }
+  case "DELETE":{
     break;
   }
 
@@ -76,24 +66,4 @@ switch($_SERVER["REQUEST_METHOD"]){
 
 }
 
-function updateStateOfTask($tb,$col,$id,$searchId){
-  global $db,$data;
-  $selectQuery="SELECT $col FROM $tb WHERE id=:id";
-  $result=$db->selectElement($selectQuery,["id"=>$id]);
-  $student=(array) json_decode($result["data"][0][$col]);
-  $newArr=[];
-  
-  for($i=0;$i<count((array)$student);$i++){
-    $t=(array)$student[$i];
-    if($data[$searchId]==$t[$searchId]){
-      $t["state"]=$data["state"];
-      $t["github_url"]=$data["github_url"];
-    };
-    array_push($newArr,$t);
-  }
-  $newArr=json_encode($newArr);
-  $updateQuery="UPDATE $tb SET $col='$newArr' WHERE id=:id" ;
-  $db->update($updateQuery,["id"=>$id]);
-
-}
 

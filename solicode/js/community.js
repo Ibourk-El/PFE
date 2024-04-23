@@ -175,7 +175,7 @@ function addLikeEvent() {
       // change style and add number of likes
       const numOflikes = +e.target.children[0].innerHTML;
       e.target.classList.add("add-like");
-      let res = await updatePostLikes(parent.id, numOflikes);
+      const res = await updatePostLikes(parent.id, numOflikes);
       if (res.msg !== "already")
         e.target.children[0].innerHTML = numOflikes + 1;
     });
@@ -215,19 +215,20 @@ function editPostEvent(parent) {
   });
 }
 
-function deletePostEvent(parent, id) {
+function deletePostEvent(parent) {
   let deleteBtn = parent.querySelector(".delete-post");
   deleteBtn.addEventListener("click", async () => {
+    console.log(parent.parentElement.parentElement.parentElement.id);
     const postId = parent.parentElement.parentElement.parentElement.id;
-    const res = await sendData(communityURL, "DELETE", { id: postId });
+    const res = await sendData(communityURL, "DELETE", { id: postId }, "json");
     console.log(res);
     parent.children[1].classList.toggle("active");
   });
 }
 
 function setDataInEditBox(data) {
-  const body = document.getElementById("body");
+  // const body = document.getElementById("body");
   const postId = document.getElementById("post_id_input");
-  body.innerHTML = data.post_body;
+  txtEditor.setValue(data.post_body);
   postId.value = data.id;
 }

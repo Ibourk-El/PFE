@@ -70,9 +70,8 @@ async function getProblem(id) {
   document.getElementById("problemId").innerHTML = res.id;
   document.getElementById("challenge-title").innerHTML = res.title;
   document.getElementById("challenge-body").innerHTML = res.body;
-
-  editor.setValue(JSON.parse(res.code)[lang.value].fun);
-  code = { ...JSON.parse(res.code) };
+  if (lang.value === "javascript") editor.setValue(res.js_fun);
+  else editor.setValue(res.php_fun);
 }
 
 async function getALLProblems() {

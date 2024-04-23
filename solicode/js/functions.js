@@ -66,6 +66,10 @@ function textEditor(id) {
   return quill;
 }
 
+function resetImagePath(imgUrl) {
+  return imgUrl.replaceAll("\\", "/");
+}
+
 export {
   closeBtnFun,
   closeWorkSection,
@@ -76,4 +80,5 @@ export {
   formData,
   baceURL,
   textEditor,
+  resetImagePath,
 };

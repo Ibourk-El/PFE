@@ -79,7 +79,6 @@ require_once "./../handler/image.handler.php";
       break;
     }
     case "DELETE":{
-
       $db->delete($tbname,$data["id"]);
       echo json_encode(["msg"=>"article is deleted ".$data['id']]);
       break;

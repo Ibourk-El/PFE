@@ -11,7 +11,7 @@ header("Content-Type:Application/json");
 $data=(array) json_decode(file_get_contents("php://input"));
 
 $db=new Database($user,$pwd);
-$query="SELECT id,full_name FROM $tbname WHERE email=:email AND pwd=:pwd";
+$query="SELECT id,full_name,class_id,photo FROM $tbname WHERE email=:email AND pwd=:pwd";
 $res=[...$db->selectElement( $query,$data)];
 
 if(!empty($res["data"])){

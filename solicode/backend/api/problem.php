@@ -15,32 +15,25 @@ if($_SERVER["REQUEST_METHOD"]==="GET"){
   if(empty($_GET)){
     echo json_encode($db->selectAll($tbname,"body,title,id")["data"]);
   }else{
-    $query="SELECT title,body,id,code FROM $tbname WHERE id=:id";
-    echo json_encode($db->selectElement($query,["id"=>$_GET["id"]])["data"][0]);
+    $query="SELECT title,body,id,js_fun,php_fun FROM $tbname WHERE id=:id";
+    $re=$db->selectElement($query,["id"=>$_GET["id"]])["data"][0];
+    echo json_encode($re);
   }
 }
 
 if($_SERVER["REQUEST_METHOD"]==="POST"){
 
-  $query="SELECT code FROM $tbname WHERE id=:id";
-  $result=(array)json_decode($db->selectElement($query,["id"=>$data["problemId"]])["data"][0]["code"]);
-
+  
   if($data["extantion"]==="javascript"){
-    $jsData=(array)($result["javascript"]);
-    $expacted_output=$jsData["output"];
-    $file_output=executeFile($data,$jsData,"node");
-    if($file_output["result_code"]===0){
-      echo json_encode(checkAnswers($file_output["output"],$expacted_output));
-    }else{
-      echo json_encode(["result"=>["Test"=>["state"=>"invalidCode","result"=>"Lock to your code there is some issuse"]]]);
-    }
-  }
+    $query="SELECT js,output FROM $tbname WHERE id=:id";
 
-  if($data["extantion"]==="php"){
-    $jsData=(array)($result["php"]);
-    $expacted_output=$jsData["output"];
-    $file_output=executeFile($data,$jsData,"php");
-    if($result_code===0){
+    $url_of_test_file=$db->selectElement($query,["id"=>$data["problemId"]])["data"][0]["js"];
+    $expacted_output=(array)json_decode(($db->selectElement($query,["id"=>$data["problemId"]])["data"][0]["output"]));
+
+    $content=file_get_contents($url_of_test_file);
+
+    $file_output=executeFile($data,$content,"node","js");
+    if($file_output["result_code"]===0){
       echo json_encode(checkAnswers($file_output["output"],$expacted_output));
     }else{
       echo json_encode(["result"=>["Test"=>["state"=>"invalidCode","result"=>"Lock to your code there is some issuse"]]]);

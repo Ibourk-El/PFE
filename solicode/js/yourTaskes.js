@@ -10,6 +10,7 @@ import {
 const user_id = sessionStorage.getItem("user_id");
 const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
+const class_id = sessionStorage.getItem("class_id");
 
 const usertaskURL = baceURL + "solicode/backend/api/userTask.php";
 const taskURL = baceURL + "solicode/backend/api/task.php";
@@ -18,6 +19,8 @@ const taskURL = baceURL + "solicode/backend/api/task.php";
 
 closeBtnFun();
 setUserName(user_name, user_img);
+closeBtnFun();
+getUserTaskes();
 
 //
 if (user_id === null) {
@@ -34,8 +37,6 @@ function resetShowBtnEvent() {
     });
   });
 }
-
-closeBtnFun();
 
 // drag and drop
 
@@ -63,7 +64,7 @@ function drop(e) {
 
     const obj = {
       student_id: user_id,
-      state: e.target.id,
+      status: e.target.id,
       task_id: data.id,
       github_url: "",
     };
@@ -84,7 +85,7 @@ function drop(e) {
         return;
       });
     }
-    fetchData(obj, "json");
+    fetchData(obj);
   }
 }
 
@@ -101,8 +102,8 @@ function addTaskState(boxId, taskId) {
 
 // fetch data
 
-async function fetchData(obj, f) {
-  console.log(await sendData(taskURL, "PATCH", obj, f));
+async function fetchData(obj) {
+  await sendData(taskURL, "PATCH", obj, "json");
 }
 
 // get task
@@ -124,18 +125,21 @@ async function getUserTaskes() {
   const doneContainer = document.getElementById("done");
   addEvent(indoingContainer);
   addEvent(doneContainer);
-  const res = await getData(usertaskURL, "?id=" + user_id);
+  const res = await getData(
+    usertaskURL,
+    "?student_id=" + user_id + "&class_id=" + class_id
+  );
   console.log(res);
   res.forEach((e) => {
-    switch (e.state) {
+    switch (e.status) {
       case "done":
-        doneContainer.appendChild(createTask(e.task_id, e.task_title));
+        doneContainer.appendChild(createTask(e.id, e.title));
         break;
       case "inDoing":
-        indoingContainer.appendChild(createTask(e.task_id, e.task_title));
+        indoingContainer.appendChild(createTask(e.id, e.title));
         break;
-      case "nothing":
-        taskContainer.appendChild(createTask(e.task_id, e.task_title));
+      case "notStart":
+        taskContainer.appendChild(createTask(e.id, e.title));
         break;
     }
   });
@@ -170,5 +174,3 @@ function taskContainer(id) {
 
   return taskesBox;
 }
-
-getUserTaskes();

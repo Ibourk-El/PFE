@@ -20,7 +20,7 @@ function post(id, crPImgUrl, crPName, pBody, pImg, date, like, activeMenu) {
       </div>
     </header>
     ${pImg ? `<img src="${pImg}" alt="post imag"/>` : ""}
-    <p class="post-content">${pBody}</p>
+    <div class="post-content">${pBody}</div>
     <ul class="post-footer">
       <li class="post-info likes ${like.color}">Like <span class="like-num">${
     like.num

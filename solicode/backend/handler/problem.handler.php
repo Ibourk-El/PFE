@@ -18,20 +18,21 @@ function checkAnswers($output,$expacted_output){
   return ["result"=>$result,"passed"=>$test_passed];
 }
 
-function createFileContent($data,$ext,$testLine){
+function createFileContent($data,$test_content,$ext){
   // to create file path and file content 
-  $path=__DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."files".DIRECTORY_SEPARATOR;
+
+  $path=__DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."files".DIRECTORY_SEPARATOR."solved-file".DIRECTORY_SEPARATOR;
   $name=$data["problemTitle"].$data["problemId"].$data["userId"].".$ext";
   $file_name=$path.$name;
   $fun=$data["code"];
-  $file_content="$fun\n$testLine";
+  $file_content="$fun\n$test_content";
 
   return ["file_name"=>$file_name,"file_content"=>$file_content];
 }
 
-function executeFile($data,$jsData,$lan){
+function executeFile($data,$test_content,$lan,$ext){
   // to execute the file 
-  $file_data=createFileContent($data,"js",$jsData["testLine"]);
+  $file_data=createFileContent($data,$test_content,$ext);
   file_put_contents($file_data["file_name"],$file_data["file_content"]);
 
   exec("$lan ".$file_data["file_name"],$output,$result_code);
