@@ -48,8 +48,8 @@ async function login() {
       sessionStorage.setItem("user_id", res.data[0].id);
       sessionStorage.setItem("user_name", res.data[0].full_name);
       sessionStorage.setItem("class_id", res.data[0].class_id);
-      sessionStorage.setItem("user_img", resetImagePath(res.data[0].photo));
-      sessionStorage.setItem("data", JSON.stringify(res.data[0]));
+      sessionStorage.setItem("data", JSON.stringify(res));
+      sessionStorage.setItem("user_img", resetImagePath(res.photo_path));
       window.location.href = "./student/yourTaskes.html";
     } else msg.innerHTML = res.msg;
   } else {

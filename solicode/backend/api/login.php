@@ -1,6 +1,7 @@
 <?php 
 
 require_once "./../db.php";
+require_once "./../handler/image.handler.php";
 
 $user="root";
 $pwd="";
@@ -18,12 +19,15 @@ if(!empty($res["data"])){
   global $res;
   $res["status"]=200;
   $res["msg"]="you are login successfully";
+  $res["photo_path"]=changePathOfImg($res["data"][0]["photo"]);
+  // echo changePathOfImg($res["data"][0]["photo"]);
 }
 else{
   global $res;
   $res["status"]=401;
   $res["msg"]="pwd or email is not correct ";
 }
+
 
 echo json_encode($res);
 

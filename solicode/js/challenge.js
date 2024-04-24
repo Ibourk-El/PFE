@@ -32,6 +32,7 @@ lang.addEventListener("change", () => {
 runBtn.addEventListener("click", async () => {
   const problemId = document.getElementById("problemId").value;
   const output = document.getElementById("output");
+  const problemStatus = document.getElementById("status" + problemId);
   let result = "";
   let obj = {
     userId: user_id,
@@ -41,11 +42,10 @@ runBtn.addEventListener("click", async () => {
     problemTitle: pTitle,
   };
   const res = await sendData(URL, "POST", obj, "json");
-  console.log(res);
-  let data = { ...res.result };
-  for (let el in data) {
+  for (let el in res.result) {
     result += `<p><span class='${data[el].state}'>${el}</span> Result => <span>${data[el].result}</span></p>`;
   }
+  problemStatus.innerHTML = res.passed;
   output.innerHTML = result;
 });
 
@@ -75,16 +75,17 @@ async function getProblem(id) {
 }
 
 async function getALLProblems() {
-  const res = await getData(URL, "");
+  const res = await getData(URL, "?student_id=" + user_id);
+  console.log(res);
   const tBody = document.getElementById("tbody");
   tBody.innerHTML = "";
   res.forEach((el) => {
     tBody.innerHTML += `
-    <tr>
+    <tr >
       <th>${el.id}</th>
       <th class="pro-title" data-pro="${el.id}">${el.title}</th>
-      <th class="JS">JS</th>
-      <th class="solved">58%</th>
+      <th id=" status${el.id}" class="JS">${el.status ? el.status : "?"}</th>
+      <th class="solved">${el.difficulty}</th>
     </tr>
     `;
   });

@@ -9,7 +9,7 @@
         $this->pdo=new PDO($this->dns,$user,$pwd);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
       }catch(PDOException $e){
-        echo "feild to connet with db".$e;
+        echo ["err"=>"feild to connet with db".$e];
       }
     }
 
@@ -20,7 +20,7 @@
         $in->execute();
         return true ;
       }catch(PDOException $e){
-        return [$data,"err"=>[$e->getMessage()]];
+        return ["err"=>[$e->getMessage()]];
       }
     }
 
@@ -30,35 +30,21 @@
         foreach($data as $k=>$v)$in->bindValue($k,$v);
         $in->execute();
       }catch(PDOException $e){
-        echo "Feild To Update Data".$e;
+        echo ["err updata"=>"Feild To Update Data".$e];
       }
     }
 
-    function selectAll(string $tbname,string $selectElement="*"){
-      try{
-        $query="SELECT  $selectElement FROM $tbname ORDER BY id DESC";
-        $in=$this->pdo->prepare($query);
-        $in->execute();
-        $result=$in->fetchAll(PDO::FETCH_ASSOC);
-        return ["data"=>$result];
-      }catch(PDOException $e){
-        echo ["data"=>[$e->getMessage()]];
-      }
-    }
-
-    public function selectPart(string $tbname,int $s,$contity){
-      try{
-        $query="SELECT * FROM $tbname ORDER BY id DESC LIMIT :s,:c";
-        $in=$this->pdo->prepare($query);
-        $in->bindParam(":s",$s);
-        $in->bindParam(":c",$contity);
-        $in->execute();
-        $result=$in->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-      }catch(PDOException $e){
-        echo ["data"=>[$e->getMessage()]];
-      }
-    }
+    // function selectAll(string $tbname,string $selectElement="*"){
+    //   try{
+    //     $query="SELECT  $selectElement FROM $tbname ORDER BY id DESC";
+    //     $in=$this->pdo->prepare($query);
+    //     $in->execute();
+    //     $result=$in->fetchAll(PDO::FETCH_ASSOC);
+    //     return ["data"=>$result];
+    //   }catch(PDOException $e){
+    //     echo ["data"=>[$e->getMessage()]];
+    //   }
+    // }
 
     public function selectElement(string $query, array $data){
       try{

@@ -2,6 +2,12 @@ const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
 
 function post(id, crPImgUrl, crPName, pBody, pImg, date, like, activeMenu) {
+  let imgs = "";
+
+  for (let ims in pImg) {
+    imgs += `<div class="img-box"><img src="${pImg[ims]}" alt="post imag"/></div>`;
+  }
+
   return `<main class="post" id=${id}>
   <div class="post-container">
     <header class="post-header">
@@ -19,12 +25,12 @@ function post(id, crPImgUrl, crPName, pBody, pImg, date, like, activeMenu) {
         <ul>
       </div>
     </header>
-    ${pImg ? `<img src="${pImg}" alt="post imag"/>` : ""}
+    <div class="post-imgs">
+    ${imgs}
+    </div>
     <div class="post-content">${pBody}</div>
     <ul class="post-footer">
-      <li class="post-info likes ${like.color}">Like <span class="like-num">${
-    like.num
-  }</span></li>
+      <li class="post-info likes ${like.color}">Like <span class="like-num">${like.num}</span></li>
       <li class="post-info comment-btn">Comments -12-</li>
       <li class="post-info date">date: ${date}</li>
     </ul>
@@ -51,7 +57,7 @@ function setAllComment(comments, commentC) {
       `<div class="comment">
     <div class="user-box">
       <div class="img-box">
-        <img src="" alt="poster img" />
+        <img src="${el.photo}" alt="poster img" />
       </div>
       <span>${el.creater_name}</span>
     </div>

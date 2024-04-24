@@ -30,5 +30,11 @@ function checkExtantion($file_type){
   return array_search($file_type,$arr);
 }
 
+function changePathOfImg($url){
+  
+  return str_replace("C:\\xampp\\htdocs\\projects\\PFE\\solicode","http://localhost/projects/PFE/solicode/",$url);
+
+}
+
 
 

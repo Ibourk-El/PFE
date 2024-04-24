@@ -37,6 +37,7 @@ const txtEditor = textEditor("editor");
 
 async function getAllPosts() {
   const res = await getData(communityURL, "");
+  console.log(res);
   setPosts(res.data, "");
 }
 
@@ -52,7 +53,7 @@ function setPosts(data, activeMenu) {
 
     postsContainer.innerHTML += post(
       el.id,
-      "",
+      el.photo,
       el.creater_name,
       el.post_body,
       el.file_path,
@@ -122,6 +123,7 @@ async function getComments(id, con) {
     "?catigory_id=" + id + "&catigory=post"
   );
   // add comment to the post
+  console.log(res);
   setAllComment(res.data, con);
 }
 
@@ -139,12 +141,12 @@ function sendComment(parent) {
       };
       // add comment before send it to backend
       setAllComment(
-        [obj],
+        [{ creater_name: user_name, body: body, photo: user_img }],
         parent.children[1].querySelector("#all-comment-box")
       );
-      parent.querySelector("#comment-body").value = "";
       // send req
-      await sendData(commentURL, "POST", obj, "json");
+      const res = await sendData(commentURL, "POST", obj, "json");
+      parent.querySelector("#comment-body").value = "";
     } else {
       console.log("the comment is empty");
     }

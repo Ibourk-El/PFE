@@ -32,7 +32,18 @@ require_once "./../handler/image.handler.php";
         echo json_encode($res);
       }else{
         // all post
-        $res=$db->selectAll($tbname);
+        $query="SELECT $tbname.post_body,$tbname.creater_name,$tbname.likes,$tbname.create_at,$tbname.id,$tbname.file_path,student.photo FROM $tbname
+        INNER JOIN student ON student.id=$tbname.creater_id ";
+        $res=$db->selectElement($query,$data);
+
+        for($i=0;$i<count($res["data"]);$i++){
+          $res["data"][$i]["photo"]=changePathOfImg($res["data"][$i]["photo"]);
+
+          if($res["data"][$i]["file_path"]){
+            $res["data"][$i]["file_path"]=filePath($res["data"][$i]["file_path"]);
+          }
+
+        }
         echo json_encode($res);
       }
       break;
@@ -85,6 +96,21 @@ require_once "./../handler/image.handler.php";
     }
 
     default : echo "REQUEST METHOD NOT REQUIRED";
+  }
+
+
+
+  function filePath($files){
+
+    $f=(array)json_decode($files);
+    $ar=[];
+
+    for($i=0;$i<count($f);$i++){
+      $ar["img $i"]=changePathOfImg($f[$i]);
+    }
+
+    return $ar;
+
   }
 
 

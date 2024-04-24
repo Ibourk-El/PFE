@@ -23,8 +23,11 @@ const user_img = sessionStorage.getItem("user_img");
 
 const articleURL = baceURL + "solicode/backend/api/article.php";
 const commentURL = baceURL + "solicode/backend/api/comment.php";
-  
-const txtEditor = textEditor("editor");
+
+let txtEditor;
+window.onloadeddata = () => {
+  txtEditor = textEditor("editor");
+};
 
 // if user id is not in session
 if (user_id !== null) getAllArticles();
@@ -36,6 +39,7 @@ else {
 
 closeBtnFun();
 setUserName(user_name, user_img);
+setImgUserNameInCom(user_img, user_name);
 
 //
 
@@ -145,4 +149,9 @@ async function setArticle(id) {
   sendCommentBtn.setAttribute("data-id", id);
   aBody.innerHTML = res.data[0].body;
   aTitle.innerHTML = res.data[0].title;
+}
+
+function setImgUserNameInCom(imgSRC, name) {
+  document.getElementById("user_img_com").src = imgSRC;
+  document.getElementById("user_name_com").innerHTML = name;
 }

@@ -109,7 +109,6 @@ async function fetchData(obj) {
 // get task
 async function getTaskDetailes(task_id) {
   const res = await getData(taskURL, "?id=" + task_id);
-  console.log(res);
 }
 
 // add dragOver and drop to taskes containers
