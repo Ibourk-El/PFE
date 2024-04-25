@@ -31,7 +31,8 @@
         echo json_encode($res);
       }else{
         // select all articles in database
-        $res=$db->selectAll($tbname);
+        $query="SELECT body,title,create_at,creater_name,id FROM $tbname ";
+        $res=$db->selectElement($query,$data);
         echo json_encode($res);
       }
       break;

@@ -43,7 +43,7 @@ runBtn.addEventListener("click", async () => {
   };
   const res = await sendData(URL, "POST", obj, "json");
   for (let el in res.result) {
-    result += `<p><span class='${data[el].state}'>${el}</span> Result => <span>${data[el].result}</span></p>`;
+    result += `<p><span class='${res.result[el].state}'>${el}</span> Result => <span>${res.result[el].result}</span></p>`;
   }
   problemStatus.innerHTML = res.passed;
   output.innerHTML = result;
@@ -84,7 +84,7 @@ async function getALLProblems() {
     <tr >
       <th>${el.id}</th>
       <th class="pro-title" data-pro="${el.id}">${el.title}</th>
-      <th id=" status${el.id}" class="JS">${el.status ? el.status : "?"}</th>
+      <th id="status${el.id}" class="JS">${el.status ? el.status : "?"}</th>
       <th class="solved">${el.difficulty}</th>
     </tr>
     `;
