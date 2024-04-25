@@ -1,36 +1,63 @@
-import { closeBtnFun, openWorkSection } from "./functions.js";
+import { closeBtnFun, openWorkSection, baceURL, getData } from "./functions.js";
+
+const taskUrl = baceURL + "solicode/backend/api/task.php";
 
 closeBtnFun();
 
 let data = [];
 
+let tasks = {};
+
 async function getTask() {
-  const req = await fetch(
-    "http://localhost/projects/solicode/backend/api/task.php?class_id=2"
-  );
-  const res = await req.json();
+  const res = await getData(taskUrl, "?class_id=2");
+  console.log(res);
+
   res.forEach((el) => {
+    const taskNum = "task " + el.id;
+    if (taskNum in tasks) {
+      tasks[taskNum].student.push({
+        student_id: el.student_id,
+        status: el.status,
+        student_name: el.full_name,
+      });
+    } else {
+      tasks[taskNum] = {
+        id: el.id,
+        title: el.title,
+        task_body: el.task_body,
+        file_path: el.file_path,
+        student: [
+          {
+            student_id: el.student_id,
+            status: el.status,
+            student_name: el.full_name,
+          },
+        ],
+      };
+    }
+  });
+
+  console.log(tasks);
+
+  for (let task in tasks) {
     let s = 0;
     let ind = 0;
     let d = 0;
-    const n = JSON.parse(el.student);
-    const len = n.length;
-    n.forEach((e) => {
-      if (e.state === "inDoing") ind++;
-      if (e.state === "done") d++;
-      if (e.state === "nothing") s++;
+    const len = tasks[task].student.length;
+    tasks[task].student.forEach((e) => {
+      if (e.status === "inDoing") ind++;
+      if (e.status === "done") d++;
+      if (e.status === "notStart") s++;
     });
     const e = createTaskBox(
-      el.title,
-      `not start ${s}/${len}`,
+      tasks[task].title,
+      `notstart ${s}/${len}`,
       `inDoing ${ind}/${len}`,
       `done ${d}/${len}`,
-      el.id
+      tasks[task].id
     );
     addTaskToContainer(e);
-  });
-  data = [...res];
-  console.log(res);
+  }
 }
 
 getTask();
@@ -62,13 +89,13 @@ function createTaskBox(task_title, s, ind, d, id) {
 function setDataInTable(id) {
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = "";
-  let task = { ...choseTask(id) };
-  let student = JSON.parse(task.student);
 
-  student.forEach((el) => {
+  console.log(choseTask(id));
+
+  choseTask(id).forEach((el) => {
     const text = `<tr>
     <th>${el.student_name}</th>
-    <th class="${el.state}">${el.state}</th>
+    <th class="${el.status}">${el.status}</th>
     <th class="run-btn">Run</th>
     <th>
       <select name="result" id="taskIdResult">
@@ -84,7 +111,7 @@ function setDataInTable(id) {
 }
 
 function choseTask(id) {
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].id === id) return data[i];
+  for (let task in tasks) {
+    if (tasks[task].id === id) return tasks[task].student;
   }
 }

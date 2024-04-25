@@ -1,6 +1,7 @@
 <?php
   require_once "./../db.php";
   require_once "./../handler/image.handler.php";
+  require_once "./../midelware/authorization.php";
 
   header("Content-Type: Application/json");
   $data= (array) json_decode(file_get_contents("php://input"));
@@ -13,11 +14,17 @@
 
   switch($_SERVER["REQUEST_METHOD"]){
     case "POST":{
-      $data=[...(array)json_decode($_POST["data"])];
-      $data["file_path"]=handelImages($_FILES["file"]);
-      $query= "INSERT INTO $tbname(title,body,file_path,creater_id,creater_name) VALUES (:title,:body,:file_path,:creater_id,:creater_name)";
-      $db->insert($query,$data);
-      echo json_encode(["status"=>201,"msg"=>"the article is add successfully"]);
+
+      if(checkIfTheUserIsLoged($data["creater_id"],$_SERVER['HTTP_X_ACCESS_TOKEN'])){
+        $data=[...(array)json_decode($_POST["data"])];
+        $data["file_path"]=handelImages($_FILES["file"]);
+        $query= "INSERT INTO $tbname(title,body,file_path,creater_id,creater_name) VALUES (:title,:body,:file_path,:creater_id,:creater_name)";
+        $db->insert($query,$data);
+        echo json_encode(["status"=>201,"msg"=>"the article is add successfully"]);
+      }else{
+        echo json_encode(["status"=>401,"msg"=>"inAuthorization"]);
+      }
+      
       break;
     }
     case "GET":{
@@ -31,8 +38,17 @@
         echo json_encode($res);
       }else{
         // select all articles in database
-        $res=$db->selectAll($tbname);
-        echo json_encode($res);
+        if(validToken($_SERVER['HTTP_X_ACCESS_TOKEN'])){
+          $query="SELECT * FROM $tbname ";
+          $res=$db->selectElement($query,$data);
+          $res["tokenA"]=$_SERVER['HTTP_X_ACCESS_TOKEN'];
+          
+          echo json_encode($res);
+        }
+        else{
+          echo json_encode(["status"=>401,"msg"=>"inAuthorization"]);
+          
+        }
       }
       break;
     }

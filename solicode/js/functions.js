@@ -29,10 +29,15 @@ async function getData(url, query) {
 
 async function sendData(url, method, data, format) {
   let reqElemment;
+  const token = sessionStorage.getItem("_tk");
   if (format === "json") {
     reqElemment = {
       method: method,
-      headers: { "Content-type": "Application/json" },
+      headers: {
+        "Content-type": "Application/json",
+        Authorization: "Bearer " + token,
+        "x-access-token": token,
+      },
       body: JSON.stringify(data),
     };
   } else {
@@ -82,4 +87,3 @@ export {
   textEditor,
   resetImagePath,
 };
-   
