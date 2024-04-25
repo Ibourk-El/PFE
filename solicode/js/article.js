@@ -64,7 +64,7 @@ sendArticleBtn.addEventListener("click", async () => {
       creater_id: user_id,
       creater_name: user_name,
     };
-    const res = await sendData(articleURL, "POST", formData(file, obj));
+    const res = await sendData(articleURL, "POST", formData(file, obj), "");
     console.log(res);
     closeWorkSection();
     title.value = "";

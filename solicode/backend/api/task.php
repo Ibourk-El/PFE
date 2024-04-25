@@ -11,11 +11,16 @@ $db=new Database($user,$pwd);
 switch($_SERVER["REQUEST_METHOD"]){
 
   case "GET":{
-    $var="";
-    if(isset($_GET["id"]))$var="id";
-    if(isset($_GET["class_id"]))$var="class_id";
-    $q="SELECT * FROM task WhERE $var=:$var ORDER BY id DESC";
-    $re=$db->selectElement($q,[$var=>$_GET["$var"]]);
+    if(isset($_GET["id"])){
+      $q="SELECT * FROM task WhERE id=:id ORDER BY id DESC";
+      $re=$db->selectElement($q,["id"=>$_GET["id"]]);
+    }
+    if(isset($_GET["class_id"])){
+      $q="SELECT task.*,taskstate.status,taskstate.student_id ,student.full_name FROM task 
+      INNER JOIN taskstate ON taskstate.task_id=task.id AND class_id=:class_id
+      INNER JOIN student ON taskstate.student_id=student.id  ORDER BY id DESC";
+      $re=$db->selectElement($q,["class_id"=>$_GET["class_id"]]);
+    }
     echo json_encode($re["data"]);
     break;
   }
