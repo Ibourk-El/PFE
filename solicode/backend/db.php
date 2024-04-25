@@ -30,7 +30,7 @@
         foreach($data as $k=>$v)$in->bindValue($k,$v);
         $in->execute();
       }catch(PDOException $e){
-        echo ["err updata"=>"Feild To Update Data".$e];
+        echo json_encode(["err updata"=>"Feild To Update Data".$e]);
       }
     }
 

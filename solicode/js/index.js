@@ -49,8 +49,6 @@ async function login() {
       sessionStorage.setItem("user_name", res.full_name);
       sessionStorage.setItem("class_id", res.class_id);
       sessionStorage.setItem("_tk", res._tk);
-      sessionStorage.setItem("t", JSON.stringify(res.time));
-      sessionStorage.setItem("db", JSON.stringify(res.db));
       sessionStorage.setItem("user_img", resetImagePath(res.photo_path));
       window.location.href = "./student/yourTaskes.html";
     } else msg.innerHTML = res.msg;
