@@ -6,7 +6,7 @@ require_once "./../db.php";
 $db=new Database("root","");
 function checkIfTheUserIsLoged($id,$token){
   $tokenV=validToken($token);
-  if($tokenV && $id===$tokenV["student_id"]){
+  if($tokenV && $id==$tokenV["student_id"]){
     return true;
   }
   return false;

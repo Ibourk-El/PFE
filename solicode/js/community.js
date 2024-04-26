@@ -8,6 +8,10 @@ import {
   sendData,
   formData,
   textEditor,
+  checkIfuserLogin,
+  user_id,
+  user_img,
+  user_name,
 } from "./functions.js";
 import { post, setAllComment } from "./postElement.js";
 
@@ -15,21 +19,13 @@ const sendPostBtn = document.getElementById("send-btn");
 const addBtn = document.getElementById("add-btn");
 const filterBtn = document.getElementById("filter-btn");
 
-const user_id = sessionStorage.getItem("user_id");
-const user_name = sessionStorage.getItem("user_name");
-const user_img = sessionStorage.getItem("user_img");
-
 const communityURL = baceURL + "solicode/backend/api/community.php";
 const commentURL = baceURL + "solicode/backend/api/comment.php";
 
-if (user_id !== null) {
-} else {
-  location.href = baceURL + "solicode/";
-}
 //
 closeBtnFun();
 setUserName(user_name, user_img);
-getAllPosts();
+checkIfuserLogin(user_id, getAllPosts);
 
 const txtEditor = textEditor("editor");
 

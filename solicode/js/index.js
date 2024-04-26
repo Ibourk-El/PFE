@@ -62,6 +62,7 @@ async function signup() {
   const fullName = document.getElementById("full_name");
   const classId = document.getElementById("class_id");
   const pwd = document.getElementById("pwd");
+  const msg = document.getElementById("msg");
   if (
     email.value !== "" &&
     pwd.value !== "" &&
@@ -75,9 +76,13 @@ async function signup() {
       pwd: pwd.value,
     };
     const res = await sendData(signupURL, "POST", obj, "json");
-    active("flex", "none");
-    loginBtn.innerHTML = "Send";
-    signupBtn.innerHTML = "Signup";
+    if (res["msg"] !== "email is allready exist") {
+      active("flex", "none");
+      loginBtn.innerHTML = "Send";
+      signupBtn.innerHTML = "Signup";
+    } else {
+      msg.innerHTML = res["msg"];
+    }
   } else {
     msg.innerHTML = "Some Fieldes Are Empty";
   }

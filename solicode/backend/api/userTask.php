@@ -14,4 +14,3 @@ $db=new Database($user,$pwd);
   $re=$db->selectElement($q,["class_id"=>$_GET["class_id"],"student_id"=>$_GET["student_id"]]);
   echo json_encode($re["data"]);
 
-

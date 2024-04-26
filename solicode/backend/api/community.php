@@ -1,6 +1,8 @@
 <?php
 require_once "./../db.php";
 require_once "./../handler/image.handler.php";
+require_once "./../midelware/authorization.php";
+
 
   header("Content-Type: Application/json");
   header('HTTP/1.0 200 ok');
@@ -10,8 +12,10 @@ require_once "./../handler/image.handler.php";
   $pwd= "";
   $tbname= "post";
 
-  $db= new Database($user,$pwd);  
-
+  $db= new Database($user,$pwd); 
+  
+  if(isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && checkIfTheUserIsLoged($_SERVER["HTTP_ID"],$_SERVER['HTTP_X_ACCESS_TOKEN'])){
+  
   switch($_SERVER["REQUEST_METHOD"]){
     case "POST":{
       $data=[...(array)json_decode($_POST["data"])];
@@ -43,7 +47,7 @@ require_once "./../handler/image.handler.php";
             $res["data"][$i]["file_path"]=filePath($res["data"][$i]["file_path"]);
           }
 
-        }
+        } 
         echo json_encode($res);
       }
       break;
@@ -97,6 +101,10 @@ require_once "./../handler/image.handler.php";
 
     default : echo "REQUEST METHOD NOT REQUIRED";
   }
+}else{
+
+  exit;
+}
 
 
 
@@ -112,6 +120,7 @@ require_once "./../handler/image.handler.php";
     return $ar;
 
   }
+
 
 
 

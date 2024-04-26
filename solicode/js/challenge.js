@@ -5,18 +5,20 @@ import {
   setUserName,
   sendData,
   getData,
+  checkIfuserLogin,
+  user_id,
+  user_img,
+  user_name,
 } from "./functions.js";
 
 const URL = baceURL + "solicode/backend/api/problem.php";
-
-const user_id = sessionStorage.getItem("user_id");
-const user_name = sessionStorage.getItem("user_name");
-const user_img = sessionStorage.getItem("user_img");
 const lang = document.getElementById("lang");
 const runBtn = document.getElementById("run-editor-btn");
+
 let code = null;
 let pTitle = "";
 
+checkIfuserLogin(user_id, getALLProblems);
 // editor
 const editor = ace.edit("editor");
 editor.setTheme("ace/theme/monokai");
@@ -52,7 +54,6 @@ runBtn.addEventListener("click", async () => {
 //
 closeBtnFun();
 setUserName(user_name, user_img);
-getALLProblems();
 
 function setEventToTitle() {
   const problemTitle = document.querySelectorAll(".pro-title");
@@ -76,7 +77,6 @@ async function getProblem(id) {
 
 async function getALLProblems() {
   const res = await getData(URL, "?student_id=" + user_id);
-  console.log(res);
   const tBody = document.getElementById("tbody");
   tBody.innerHTML = "";
   res.forEach((el) => {
@@ -90,9 +90,4 @@ async function getALLProblems() {
     `;
   });
   setEventToTitle();
-}
-
-if (user_id !== null) {
-} else {
-  location.href = baceURL + "solicode/";
 }

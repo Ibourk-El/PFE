@@ -1,4 +1,8 @@
 const baceURL = "http://localhost/projects/PFE/";
+const user_id = sessionStorage.getItem("user_id");
+const user_name = sessionStorage.getItem("user_name");
+const user_img = sessionStorage.getItem("user_img");
+const class_id = sessionStorage.getItem("class_id");
 
 function setUserName(userName, imgURL) {
   document.getElementById("user-name").innerHTML = userName;
@@ -23,7 +27,15 @@ function closeWorkSection() {
 }
 
 async function getData(url, query) {
-  const req = await fetch(url + query);
+  const token = sessionStorage.getItem("_tk");
+  const req = await fetch(url + query, {
+    method: "GET",
+    headers: {
+      "Content-type": "Application/json",
+      "x-access-token": token,
+      ID: user_id,
+    },
+  });
   return await req.json();
 }
 
@@ -35,8 +47,8 @@ async function sendData(url, method, data, format) {
       method: method,
       headers: {
         "Content-type": "Application/json",
-        Authorization: "Bearer " + token,
         "x-access-token": token,
+        ID: user_id,
       },
       body: JSON.stringify(data),
     };
@@ -75,6 +87,11 @@ function resetImagePath(imgUrl) {
   return imgUrl.replaceAll("\\", "/");
 }
 
+function checkIfuserLogin(user_id, fun) {
+  if (user_id !== null) fun();
+  else location.href = baceURL + "solicode/";
+}
+
 export {
   closeBtnFun,
   closeWorkSection,
@@ -86,4 +103,9 @@ export {
   baceURL,
   textEditor,
   resetImagePath,
+  checkIfuserLogin,
+  user_id,
+  user_img,
+  user_name,
+  class_id,
 };

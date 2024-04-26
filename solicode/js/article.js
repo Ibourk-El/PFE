@@ -8,21 +8,21 @@ import {
   closeWorkSection,
   formData,
   textEditor,
+  checkIfuserLogin,
+  user_id,
+  user_img,
+  user_name,
 } from "./functions.js";
 
 import { articleBody, articleComment } from "./articleElement.js";
+
+const articleURL = baceURL + "solicode/backend/api/article.php";
+const commentURL = baceURL + "solicode/backend/api/comment.php";
 
 const addBtn = document.getElementById("add-btn");
 const sendArticleBtn = document.getElementById("send");
 const filterBtn = document.getElementById("filter-btn");
 const sendCommentBtn = document.getElementById("send-comment");
-
-const user_id = sessionStorage.getItem("user_id");
-const user_name = sessionStorage.getItem("user_name");
-const user_img = sessionStorage.getItem("user_img");
-
-const articleURL = baceURL + "solicode/backend/api/article.php";
-const commentURL = baceURL + "solicode/backend/api/comment.php";
 
 let txtEditor;
 window.onloadeddata = () => {
@@ -30,16 +30,13 @@ window.onloadeddata = () => {
 };
 
 // if user id is not in session
-if (user_id !== null) getAllArticles();
-else {
-  location.href = baceURL + "/solicode/";
-}
 
 // fun
 
 closeBtnFun();
 setUserName(user_name, user_img);
 setImgUserNameInCom(user_img, user_name);
+checkIfuserLogin(user_id, getAllArticles);
 
 //
 
@@ -74,10 +71,7 @@ sendArticleBtn.addEventListener("click", async () => {
 });
 
 filterBtn.addEventListener("click", async () => {
-  const res = await getData(
-    articleURL,
-    "?key=creater_id" + "&value=" + user_id
-  );
+  const res = await getData(articleURL, "?creater_id=" + user_id);
   addArticlesToTheBox(res);
 });
 
@@ -143,7 +137,7 @@ function setClickEventToArticleBox() {
 }
 
 async function setArticle(id) {
-  const res = await getData(articleURL, `?value=${id}&key=id`);
+  const res = await getData(articleURL, `?id=${id}`);
   const aBody = document.getElementById("article-text");
   const aTitle = document.getElementById("article-title");
   sendCommentBtn.setAttribute("data-id", id);

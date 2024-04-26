@@ -5,14 +5,13 @@ import {
   setUserName,
   getData,
   sendData,
+  checkIfuserLogin,
+  user_id,
+  user_img,
+  user_name,
+  class_id,
 } from "./functions.js";
 
-const user_id = sessionStorage.getItem("user_id");
-const user_name = sessionStorage.getItem("user_name");
-const user_img = sessionStorage.getItem("user_img");
-const class_id = sessionStorage.getItem("class_id");
-
-const usertaskURL = baceURL + "solicode/backend/api/userTask.php";
 const taskURL = baceURL + "solicode/backend/api/task.php";
 
 // fun
@@ -20,12 +19,7 @@ const taskURL = baceURL + "solicode/backend/api/task.php";
 closeBtnFun();
 setUserName(user_name, user_img);
 closeBtnFun();
-getUserTaskes();
-
-//
-if (user_id === null) {
-  location.href = "./../index.html";
-}
+checkIfuserLogin(user_id, getUserTaskes);
 
 function resetShowBtnEvent() {
   const taskBtn = document.querySelectorAll(".task-btn");
@@ -125,13 +119,13 @@ async function getUserTaskes() {
   addEvent(indoingContainer);
   addEvent(doneContainer);
   const res = await getData(
-    usertaskURL,
+    taskURL,
     "?student_id=" + user_id + "&class_id=" + class_id
   );
   console.log(res);
   res.forEach((e) => {
     switch (e.status) {
-      case "done":
+      case "Done":
         doneContainer.appendChild(createTask(e.id, e.title));
         break;
       case "inDoing":

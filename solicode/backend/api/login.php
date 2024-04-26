@@ -12,11 +12,11 @@ header("Content-Type:Application/json");
 $data=(array) json_decode(file_get_contents("php://input"));
 
 $db=new Database($user,$pwd);
-$query="SELECT $tbname.id,$tbname.full_name,$tbname.class_id,$tbname.photo,access_token.token FROM $tbname 
-LEFT JOIN access_token ON student_id=$tbname.id WHERE email=:email AND pwd=:pwd";
-$res=[...$db->selectElement( $query,$data)["data"][0]];
+$query="SELECT $tbname.id,$tbname.full_name,$tbname.class_id,$tbname.photo,$tbname.pwd,access_token.token FROM $tbname 
+LEFT JOIN access_token ON student_id=$tbname.id WHERE email=:email ";
+$res=[...$db->selectElement( $query,["email"=>$data["email"]])["data"][0]];
 
-if(!empty($res)){
+if(!empty($res) && password_verify($data["pwd"],$res["pwd"])){
   global $res;
   $res["status"]=200;
   $res["msg"]="you are login successfully";
