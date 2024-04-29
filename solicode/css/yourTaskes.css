@@ -52,7 +52,7 @@
 .taskes-procese main .taskes-box .task {
   background-color: var(--gray-light);
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   box-shadow: 1px 1px 10px 0px var(--gray-dark);
 }
 
@@ -62,7 +62,7 @@
   font-size: 1.1em;
   font-weight: 700;
   color: var(--text-color);
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .taskes-procese main .taskes-box .task button {
@@ -167,7 +167,7 @@
   width: 300px;
   transition: 0.5s;
   margin-top: 10px;
-  border: 1px solid ;
+  border: 1px solid;
 }
 
 #github-box button:hover {

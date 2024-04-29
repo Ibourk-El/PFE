@@ -21,13 +21,21 @@ setUserName(user_name, user_img);
 closeBtnFun();
 checkIfuserLogin(user_id, getUserTaskes);
 
-function resetShowBtnEvent() {
-  const taskBtn = document.querySelectorAll(".task-btn");
-  taskBtn.forEach((el) => {
+function btnsEvent() {
+  const showBtn = document.querySelectorAll(".task-btn");
+  showBtn.forEach((el) => {
     el.addEventListener("click", (e) => {
       openWorkSection();
       const task_id = e.target.parentElement.parentElement.id;
       getTaskDetailes(task_id);
+    });
+  });
+
+  const goBtn = document.querySelectorAll(".task-go");
+  goBtn.forEach((el) => {
+    el.addEventListener("click", (e) => {
+      const task_id = e.target.parentElement.parentElement.id;
+      window.open("./../editor.html?task_id=" + task_id);
     });
   });
 }
@@ -50,11 +58,10 @@ function drop(e) {
     addTaskState(data.id, e.target.id) &&
     (e.target.id === "inDoing" || e.target.id === "done")
   ) {
-    const taskBox = taskContainer(data.id);
-    taskBox.innerHTML += data.innerHTML;
-    e.target.appendChild(taskBox);
-    data.remove();
-    resetShowBtnEvent();
+    const taskBox = document.getElementById(data.id);
+    e.target.append(taskBox);
+    // btnsEvent();
+    document.getElementById("btnGo" + data.id).style.display = "inline-block";
 
     const obj = {
       student_id: user_id,
@@ -65,6 +72,7 @@ function drop(e) {
 
     if (e.target.id === "done") {
       // to add github url
+      document.getElementById("btnGo" + data.id).style.display = "none";
       const github_box = document.getElementById("github-box");
       github_box.classList.add("active");
       const sendURLBtn = document.getElementById("send-url-btn");
@@ -73,13 +81,13 @@ function drop(e) {
         const github_url = document.getElementById("github-url").value;
         if (github_url !== "") {
           obj.github_url = github_url;
-          fetchData(obj);
+          updateTaskStatus(obj);
         }
         github_box.classList.remove("active");
         return;
       });
     }
-    fetchData(obj);
+    updateTaskStatus(obj);
   }
 }
 
@@ -96,13 +104,15 @@ function addTaskState(boxId, taskId) {
 
 // fetch data
 
-async function fetchData(obj) {
+async function updateTaskStatus(obj) {
   await sendData(taskURL, "PATCH", obj, "json");
 }
 
 // get task
 async function getTaskDetailes(task_id) {
   const res = await getData(taskURL, "?id=" + task_id);
+  console.log(res);
+  setTaskDetailes(res[0]);
 }
 
 // add dragOver and drop to taskes containers
@@ -125,45 +135,84 @@ async function getUserTaskes() {
   console.log(res);
   res.forEach((e) => {
     switch (e.status) {
-      case "Done":
-        doneContainer.appendChild(createTask(e.id, e.title));
+      case "done":
+        doneContainer.innerHTML += createTaskBox(e.id, e.title);
+        // document.getElementById("btnBoxTask" + e.id).style.display = "none";
+        document.getElementById("btnGo" + e.id).style.display = "none";
+
         break;
       case "inDoing":
-        indoingContainer.appendChild(createTask(e.id, e.title));
+        indoingContainer.innerHTML += createTaskBox(e.id, e.title);
         break;
       case "notStart":
-        taskContainer.appendChild(createTask(e.id, e.title));
+        taskContainer.innerHTML += createTaskBox(e.id, e.title);
+        document.getElementById("btnGo" + e.id).style.display = "none";
         break;
     }
   });
-  resetShowBtnEvent();
+  addDragstart();
+  btnsEvent();
 }
 
-function createTask(id, title) {
-  const taskBox = taskContainer(id);
-  const task = document.createElement("div");
-  task.className = "task";
-  task.id = id;
-  const t = document.createElement("p");
-  t.innerHTML = title;
+// function createTask(id, title) {
+//   const taskBox = taskContainer(id);
+//   const task = document.createElement("div");
+//   task.className = "task";
+//   task.id = id;
+//   const t = document.createElement("p");
+//   t.innerHTML = title;
+//   const btnDiv = document.createElement("p");
+//   const showBtn = btn("Show Detailes", "task-btn", "inline-block");
+//   const starCodingBtn = btn("Start Coding", "start-code", "none");
+
+//   btnDiv.appendChild(showBtn);
+//   btnDiv.appendChild(starCodingBtn);
+//   task.appendChild(t);
+//   task.appendChild(btnDiv);
+//   taskBox.appendChild(task);
+
+//   return taskBox;
+// }
+
+function createTaskBox(id, title) {
+  return `<div class="taskes-box" id="${id}">
+    <div class="task" id="${id}">
+      <p>${title}</p>
+      <div id="btnBoxTask${id}" style="background-color:transparent;">
+        <button class="task-btn">Show Detailes</button>
+        <button id="btnGo${id}" class="task-go">Go</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function addDragstart() {
+  const tasksBox = document.querySelectorAll(".taskes-box");
+  tasksBox.forEach((el) => {
+    el.setAttribute("draggable", "true");
+    el.addEventListener("dragstart", (e) => dragStart(e));
+  });
+  // console.log(tasksBox);
+}
+
+// function taskContainer(id) {
+//   const taskesBox = document.createElement("div");
+//   taskesBox.className = "taskes-box";
+//   taskesBox.id = id;
+
+//   return taskesBox;
+// }
+
+function btn(name, className, d) {
   const btn = document.createElement("button");
-  btn.innerHTML = title;
-  btn.className = "task-btn";
-  btn.innerHTML = "Show Detailes";
+  btn.className = className;
+  btn.innerHTML = name;
+  btn.style.display = d;
 
-  task.appendChild(t);
-  task.appendChild(btn);
-  taskBox.appendChild(task);
-
-  return taskBox;
+  return btn;
 }
 
-function taskContainer(id) {
-  const taskesBox = document.createElement("div");
-  taskesBox.className = "taskes-box";
-  taskesBox.id = id;
-  taskesBox.setAttribute("draggable", "true");
-  taskesBox.addEventListener("dragstart", (e) => dragStart(e));
-
-  return taskesBox;
+function setTaskDetailes(data) {
+  document.getElementById("task-title").innerHTML = data.title;
+  document.getElementById("task-text").innerHTML = data.task_body;
 }

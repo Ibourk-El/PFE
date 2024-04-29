@@ -55,6 +55,11 @@ async function sendData(url, method, data, format) {
   } else {
     reqElemment = {
       method: method,
+      headers: {
+        "Content-type": "Application/json",
+        "x-access-token": token,
+        ID: user_id,
+      },
       body: data,
     };
   }

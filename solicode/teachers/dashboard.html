@@ -12,7 +12,7 @@
       <div class="user-box">
         <div class="img-box">
           <img src="./../img/task project 2.png" alt="" />
-        </div>  
+        </div>
         <h3>User Name</h3>
       </div>
       <div class="solicode-box">
@@ -40,9 +40,11 @@
       </article>
     </section>
     <section class="work" id="work">
-      <div class="container">
+      <div class="container table">
         <button class="close-btn" id="close-btn">close</button>
         <div class="table-container">
+          <input type="hidden" id="task_id" />
+          <input type="hidden" id="student_id" />
           <h3 class="title" id="taskTitle"></h3>
           <table>
             <thead>
@@ -51,14 +53,12 @@
                 <th>Task State</th>
                 <th>Task Code</th>
                 <th>Result</th>
+                <th>Point</th>
+                <th>Save</th>
               </tr>
             </thead>
             <tbody id="tbody"></tbody>
           </table>
-        </div>
-        <div class="codeBox">
-          <textarea name="code" id="codeIDE"></textarea>
-          <iframe class="output" id="output" frameborder="output">test</iframe>
         </div>
       </div>
     </section>

@@ -20,7 +20,7 @@ if(isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && checkIfTheUserIsLoged($_SERVER["HTT
         // get all task for student
         $q="SELECT task.title,task.file_path,task.id, taskstate.status FROM task 
         INNER JOIN taskstate ON task.id=taskstate.task_id AND taskstate.student_id=:student_id
-        WHERE taskstate.status!='nothing' AND task.class_id=:class_id    ";
+        WHERE taskstate.status!='valid' AND task.class_id=:class_id    ";
         $re=$db->selectElement($q,["class_id"=>$_GET["class_id"],"student_id"=>$_GET["student_id"]]);
       }
 
@@ -31,10 +31,10 @@ if(isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && checkIfTheUserIsLoged($_SERVER["HTT
       }
 
       else if(isset($_GET["class_id"])){
-        // get task for teacher
+        // filter tasks  for teacher
         $q="SELECT task.*,taskstate.status,taskstate.student_id ,student.full_name FROM task 
         INNER JOIN taskstate ON taskstate.task_id=task.id AND class_id=:class_id
-        INNER JOIN student ON taskstate.student_id=student.id  ORDER BY id DESC";
+        INNER JOIN student ON taskstate.student_id=student.id WHERE taskstate.status!='valid'  ORDER BY id DESC";
         $re=$db->selectElement($q,["class_id"=>$_GET["class_id"]]);
       }
       echo json_encode($re["data"]);
@@ -68,12 +68,29 @@ if(isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && checkIfTheUserIsLoged($_SERVER["HTT
 
     
     case "PUT":{
+      // update status of task 
+      if($data["status"]==="valid"){
+        // teacher valid the task
+        $updateQuery="UPDATE taskstate SET status=:status, point=:point  WHERE student_id=:student_id AND task_id=:task_id" ;
+      }else if($data["status"]==="invalid"){
+        // teacher not valid the task
+
+        $data["status"]="inDoing";
+        $updateQuery="UPDATE taskstate SET status=:status  WHERE student_id=:student_id AND task_id=:task_id" ;
+      }
+
+      $db->update($updateQuery,$data);
+      
+      echo json_encode(["status"=>202]);
       break;
     }
     
     case "PATCH":{
-      // update state of task 
-      $updateQuery="UPDATE taskstate SET status=:status ,github_url=:github_url WHERE student_id=:student_id AND task_id=:task_id" ;
+      if(isset($data["github_url"])){
+        $updateQuery="UPDATE taskstate SET status=:status, github_url=:github_url WHERE student_id=:student_id AND task_id=:task_id" ;
+      }else{
+        $updateQuery="UPDATE taskstate SET code=:code WHERE student_id=:student_id AND task_id=:task_id" ;
+      }
       $db->update($updateQuery,$data);
       
       echo json_encode(["status"=>202]);
@@ -88,7 +105,7 @@ if(isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && checkIfTheUserIsLoged($_SERVER["HTT
   }
 }else{
 
-  exit;
+  echo json_encode(["msg"=>"inauthorization"]);
 }
 
 

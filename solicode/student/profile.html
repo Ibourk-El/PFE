@@ -3,27 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- text editor likes quill -->
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css"
-      rel="stylesheet"
-    />
-    <!--  -->
     <link rel="stylesheet" href="./../css/global.css" />
     <link rel="stylesheet" href="./../css/profile.css" />
-    <title>Document</title>
+    <title>Solicode|Profile</title>
   </head>
   <body>
     <header>
       <div class="user-box">
         <div class="img-box">
-          <img
-            class="user-img"
-            id="user-img"
-            src="./../img/task project 2.png"
-            alt=""
-          />
+          <img class="user-img" id="user-img" src="" alt="user img" />
         </div>
         <h3 class="user-name" id="user-name">User Name</h3>
       </div>
@@ -52,18 +40,13 @@
         <div class="container" id="profile-container">
           <div class="user-data">
             <div class="img-box">
-              <img
-                class="user-img"
-                id="user-img"
-                src="./../img/task project 2.png"
-                alt=""
-              />
-              <input type="file" name="file" id="file" />
-              <label for="file" class="file-label"></label>
+              <img class="user-img" id="user-img-p" src="" alt="" />
+              <label for="file_path" class="file-label"></label>
             </div>
             <form action="">
               <div>
                 <input
+                  class="inp"
                   type="text"
                   name="full_name"
                   id="full_name"
@@ -74,6 +57,7 @@
               </div>
               <div>
                 <input
+                  class="inp"
                   type="email"
                   name="email"
                   id="email"
@@ -82,25 +66,71 @@
                 />
                 <button class="edit">Edit</button>
               </div>
+              <div>
+                <input
+                  class="inp"
+                  type="phone"
+                  name="phone"
+                  id="phone"
+                  value="06 00 00 00 00"
+                  readonly
+                />
+                <button class="edit">Edit</button>
+              </div>
+              <div>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  value="*******"
+                  readonly
+                />
+                <button class="edit">Edit</button>
+              </div>
+              <input type="file" name="file_path" id="file_path" />
             </form>
-            <div class="rank">
-              <span class="key">Tasks Point</span
-              ><span id="point-value">100</span>
-            </div>
-            <div class="rank">
-              <span class="key">Class Rank</span
-              ><span id="point-value">100</span>
-            </div>
-            <div class="rank">
-              <span class="key"> Solve Problem Rank</span
-              ><span id="rank-value">100</span>
-            </div>
           </div>
           <div class="user-p">
+            <div class="">
+              <main class="rank">
+                <span class="key">Tasks Point</span
+                ><span id="point-value">100</span>
+              </main>
+              <main class="rank">
+                <span class="key">Class Rank</span
+                ><span id="point-value">100</span>
+              </main>
+              <main class="rank">
+                <span class="key"> Solve Problem Rank</span
+                ><span id="rank-value">100</span>
+              </main>
+            </div>
+
+            <div class="">
+              <main>
+                <span class="key">Tasks Completed</span
+                ><span class="value">100</span>
+              </main>
+
+              <main>
+                <span class="key">Number of Articles</span
+                ><span class="value">100</span>
+              </main>
+
+              <main>
+                <span class="key">Number of Post</span
+                ><span class="value">100</span>
+              </main>
+
+              <main>
+                <span class="key">Problems Solved</span
+                ><span class="value">100</span>
+              </main>
+            </div>
+            <!--nc-->
+            <div class="third-squer"></div>
             <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <!--nc-->
           </div>
         </div>
       </article>

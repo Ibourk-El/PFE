@@ -1,12 +1,16 @@
-import { closeBtnFun, openWorkSection, baceURL, getData } from "./functions.js";
+import {
+  closeBtnFun,
+  openWorkSection,
+  baceURL,
+  getData,
+  sendData,
+} from "./functions.js";
 
 const taskUrl = baceURL + "solicode/backend/api/task.php";
+let tasks = {};
 
 closeBtnFun();
-
-let data = [];
-
-let tasks = {};
+getTask();
 
 async function getTask() {
   const res = await getData(taskUrl, "?class_id=2");
@@ -60,8 +64,6 @@ async function getTask() {
   }
 }
 
-getTask();
-
 function addTaskToContainer(task) {
   const taskContainer = document.getElementById("task-container");
   taskContainer.appendChild(task);
@@ -88,30 +90,66 @@ function createTaskBox(task_title, s, ind, d, id) {
 
 function setDataInTable(id) {
   const tbody = document.getElementById("tbody");
+  document.getElementById("task_id").value = id;
   tbody.innerHTML = "";
 
   console.log(choseTask(id));
 
   choseTask(id).forEach((el) => {
+    console.log(el.student_id);
     const text = `<tr>
     <th>${el.student_name}</th>
     <th class="${el.status}">${el.status}</th>
-    <th class="run-btn">Run</th>
+    <th class="btn run-btn">Run</th>
     <th>
-      <select name="result" id="taskIdResult">
+      <select name="result" id="studentResult${el.student_id}">
         <option value=""></option>
-        <option value="Valid">Valid</option>
-        <option value="inValid">Invalid</option>
+        <option value="valid">Valid</option>
+        <option value="invalid">Invalid</option>
       </select>
     </th>
+    <th><input id="studentPoint${el.student_id}" style="width:60px;padding:5px;" type="number" /></th>
+    <th class="btn save-btn" data-id="${el.student_id}">Save</th>
   </tr>`;
 
     tbody.innerHTML += text;
   });
+  addEventToRunBtns();
+  addEventToSaveBtns();
 }
 
 function choseTask(id) {
   for (let task in tasks) {
     if (tasks[task].id === id) return tasks[task].student;
   }
+}
+
+function addEventToRunBtns() {
+  const runBtns = document.querySelectorAll(".run-btn");
+  const taskId = document.getElementById("task_id").value;
+  runBtns.forEach((el) => {
+    el.addEventListener("click", () => {
+      window.open("./../editor.html?task_id=" + taskId);
+    });
+  });
+}
+
+function addEventToSaveBtns() {
+  const runBtns = document.querySelectorAll(".save-btn");
+  const taskId = document.getElementById("task_id").value;
+  runBtns.forEach((el) => {
+    el.addEventListener("click", async (e) => {
+      const studentId = e.target.getAttribute("data-id");
+      const select = document.getElementById(`studentResult${studentId}`).value;
+      const point = document.getElementById(`studentPoint${studentId}`).value;
+      const obj = {
+        student_id: studentId,
+        task_id: taskId,
+        status: select,
+        point: point,
+      };
+      // console.log(e.target.getAttribute("data-id"));
+      await sendData(taskUrl, "PUT", obj, "json");
+    });
+  });
 }
