@@ -1,16 +1,12 @@
-import {
-  sendData,
-  getData,
-  baceURL,
-  formData,
-  textEditor,
-} from "./functions.js";
+import { taskURL } from "./apiRouter.js";
+
+import { sendData, baceURL, formData, textEditor } from "./functions.js";
 
 const sendBtn = document.getElementById("send-btn");
 
 // const creater_id=sessionStorage.getItem("creater_id")
 
-const taskURL = baceURL + "solicode/backend/api/task.php";
+// const taskURL = baceURL + "solicode/backend/api/task.php";
 const txtEditor = textEditor("editor");
 
 sendBtn.addEventListener("click", async () => {

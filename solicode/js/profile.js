@@ -1,17 +1,15 @@
+import { profileURL } from "./apiRouter.js";
 import {
   checkIfuserLogin,
   setUserName,
   user_id,
   user_img,
   user_name,
-  class_id,
-  baceURL,
   getData,
-  formData,
   sendData,
 } from "./functions.js";
 
-const profileURL = baceURL + "solicode/backend/api/profile.php";
+// const profileURL = baceURL + "solicode/backend/api/profile.php";
 const userImageP = document.getElementById("user-img-p");
 
 userImageP.src = user_img;

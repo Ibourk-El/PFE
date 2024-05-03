@@ -1,5 +1,6 @@
+import {articleURL,commentURL}from "./apiRouter.js"
+
 import {
-  baceURL,
   closeBtnFun,
   openWorkSection,
   setUserName,
@@ -16,8 +17,8 @@ import {
 
 import { articleBody, articleComment } from "./articleElement.js";
 
-const articleURL = baceURL + "solicode/backend/api/article.php";
-const commentURL = baceURL + "solicode/backend/api/comment.php";
+// const articleURL = baceURL + "solicode/backend/api/article.php";
+// const commentURL = baceURL + "solicode/backend/api/comment.php";
 
 const addBtn = document.getElementById("add-btn");
 const sendArticleBtn = document.getElementById("send");

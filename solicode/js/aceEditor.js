@@ -1,7 +1,9 @@
-import { sendData, getData, baceURL, user_id } from "./functions.js";
+import { taskURL, userTaskURL } from "./apiRouter.js";
 
-const taskURL = baceURL + "solicode/backend/api/task.php";
-const userTaskURL = baceURL + "solicode/backend/api/userTask.php";
+import { sendData, getData, user_id } from "./functions.js";
+
+// const taskURL = baceURL + "solicode/backend/api/task.php";
+// const userTaskURL = baceURL + "solicode/backend/api/userTask.php";
 const taskId = window.location.search.split("=")[1];
 
 const editor = ace.edit("editor");

@@ -1,5 +1,6 @@
+import { communityURL, commentURL } from "./apiRouter.js";
+
 import {
-  baceURL,
   closeBtnFun,
   openWorkSection,
   closeWorkSection,
@@ -19,8 +20,8 @@ const sendPostBtn = document.getElementById("send-btn");
 const addBtn = document.getElementById("add-btn");
 const filterBtn = document.getElementById("filter-btn");
 
-const communityURL = baceURL + "solicode/backend/api/community.php";
-const commentURL = baceURL + "solicode/backend/api/comment.php";
+// const communityURL = baceURL + "solicode/backend/api/community.php";
+// const commentURL = baceURL + "solicode/backend/api/comment.php";
 
 //
 closeBtnFun();

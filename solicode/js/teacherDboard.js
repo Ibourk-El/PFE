@@ -1,19 +1,19 @@
+import { taskURL } from "./apiRouter.js";
+
 import {
   closeBtnFun,
   openWorkSection,
-  baceURL,
   getData,
   sendData,
 } from "./functions.js";
 
-const taskUrl = baceURL + "solicode/backend/api/task.php";
 let tasks = {};
 
 closeBtnFun();
 getTask();
 
 async function getTask() {
-  const res = await getData(taskUrl, "?class_id=2");
+  const res = await getData(taskURL, "?class_id=2");
   console.log(res);
 
   res.forEach((el) => {
@@ -149,7 +149,7 @@ function addEventToSaveBtns() {
         point: point,
       };
       // console.log(e.target.getAttribute("data-id"));
-      await sendData(taskUrl, "PUT", obj, "json");
+      await sendData(taskURL, "PUT", obj, "json");
     });
   });
 }

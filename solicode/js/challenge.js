@@ -1,5 +1,6 @@
+import {problemURL}from "./apiRouter.js"
+
 import {
-  baceURL,
   closeBtnFun,
   openWorkSection,
   setUserName,
@@ -11,7 +12,7 @@ import {
   user_name,
 } from "./functions.js";
 
-const URL = baceURL + "solicode/backend/api/problem.php";
+// const problemURL = baceURL + "solicode/backend/api/problem.php";
 const lang = document.getElementById("lang");
 const runBtn = document.getElementById("run-editor-btn");
 
@@ -43,7 +44,7 @@ runBtn.addEventListener("click", async () => {
     extantion: lang.value,
     problemTitle: pTitle,
   };
-  const res = await sendData(URL, "POST", obj, "json");
+  const res = await sendData(problemURL, "POST", obj, "json");
   for (let el in res.result) {
     result += `<p><span class='${res.result[el].state}'>${el}</span> Result => <span>${res.result[el].result}</span></p>`;
   }
@@ -67,7 +68,7 @@ function setEventToTitle() {
 }
 
 async function getProblem(id) {
-  const res = await getData(URL, "?id=" + id);
+  const res = await getData(problemURL, "?id=" + id);
   document.getElementById("problemId").innerHTML = res.id;
   document.getElementById("challenge-title").innerHTML = res.title;
   document.getElementById("challenge-body").innerHTML = res.body;
@@ -76,7 +77,7 @@ async function getProblem(id) {
 }
 
 async function getALLProblems() {
-  const res = await getData(URL, "?student_id=" + user_id);
+  const res = await getData(problemURL, "?student_id=" + user_id);
   const tBody = document.getElementById("tbody");
   tBody.innerHTML = "";
   res.forEach((el) => {

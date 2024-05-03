@@ -1,7 +1,9 @@
-import { baceURL, sendData, resetImagePath } from "./functions.js";
+import { loginURL, signupURL } from "./apiRouter.js";
 
-const loginURL = baceURL + "solicode/backend/api/login.php";
-const signupURL = baceURL + "solicode/backend/api/signup.php";
+import { sendData, resetImagePath } from "./functions.js";
+
+// const loginURL = baceURL + "solicode/backend/api/login.php";
+// const signupURL = baceURL + "solicode/backend/api/signup.php";
 
 if (sessionStorage.getItem("user_id")) {
   window.location.href = "./student/yourTaskes.html";

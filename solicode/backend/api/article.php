@@ -3,6 +3,14 @@
   require_once "./../handler/image.handler.php";
   require_once "./../midelware/authorization.php";
 
+  if(!(isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && checkIfTheUserIsLoged($_SERVER["HTTP_ID"],$_SERVER['HTTP_X_ACCESS_TOKEN']))){
+    echo json_encode(["status"=>401,"msg"=>"inAuthorization or invaled token"]);
+    exit();
+  }
+
+
+
+
   header("Content-Type: Application/json");
   $data= (array) json_decode(file_get_contents("php://input"));
 
@@ -12,7 +20,6 @@
 
   $db= new Database($user,$pwd);
 
-  if(isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && checkIfTheUserIsLoged($_SERVER["HTTP_ID"],$_SERVER['HTTP_X_ACCESS_TOKEN'])){
     switch($_SERVER["REQUEST_METHOD"]){
       case "POST":{
   
@@ -61,10 +68,7 @@
   
       default : echo json_encode(["msg"=>"REQUEST METHOD NOT REQUIRED"]);
     }
-  }
-  else{
-    echo json_encode(["status"=>401,"msg"=>"inAuthorization or invaled token"]);
-  }
+
 
 
 
