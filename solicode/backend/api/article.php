@@ -4,7 +4,7 @@
   require_once "./../midelware/authorization.php";
 
   if(!(isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && checkIfTheUserIsLoged($_SERVER["HTTP_ID"],$_SERVER['HTTP_X_ACCESS_TOKEN']))){
-    echo json_encode(["status"=>401,"msg"=>"inAuthorization or invaled token"]);
+    http_response_code(401);
     exit();
   }
 

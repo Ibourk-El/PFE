@@ -1,4 +1,4 @@
-import { profileURL } from "./apiRouter.js";
+import { profileURL } from "./constURLs.js";
 import {
   checkIfuserLogin,
   setUserName,

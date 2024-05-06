@@ -1,6 +1,6 @@
-import { taskURL } from "./apiRouter.js";
+import { taskURL } from "./constURLs.js";
 
-import { sendData, baceURL, formData, textEditor } from "./functions.js";
+import { sendData, formData, textEditor } from "./functions.js";
 
 const sendBtn = document.getElementById("send-btn");
 

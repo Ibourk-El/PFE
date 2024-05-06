@@ -1,4 +1,4 @@
-import {taskURL}from "./apiRouter.js"
+import { taskURL } from "./constURLs.js";
 
 import {
   closeBtnFun,
@@ -12,7 +12,6 @@ import {
   user_name,
   class_id,
 } from "./functions.js";
-
 
 // const taskURL = baceURL + "solicode/backend/api/task.php";
 

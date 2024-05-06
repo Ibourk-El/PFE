@@ -1,4 +1,3 @@
-const baceURL = "http://localhost/projects/PFE/";
 const user_id = sessionStorage.getItem("user_id");
 const user_name = sessionStorage.getItem("user_name");
 const user_img = sessionStorage.getItem("user_img");
@@ -36,6 +35,10 @@ async function getData(url, query) {
       ID: user_id,
     },
   });
+  if (req.status == 401) {
+    error(401);
+    return;
+  }
   return await req.json();
 }
 
@@ -65,7 +68,11 @@ async function sendData(url, method, data, format) {
   }
 
   const req = await fetch(url, reqElemment);
-  if (req.ok) return await req.json();
+
+  if (req.status == 401) {
+    error(401);
+    return;
+  } else if (req.ok) return await req.json();
   else return "connect faild";
 }
 
@@ -94,7 +101,11 @@ function resetImagePath(imgUrl) {
 
 function checkIfuserLogin(user_id, fun) {
   if (user_id !== null) fun();
-  else location.href = baceURL + "solicode/";
+  else location.href = "./../";
+}
+
+function error(er) {
+  location.href = "./../error.html?er=" + er;
 }
 
 export {
@@ -105,7 +116,6 @@ export {
   getData,
   sendData,
   formData,
-  baceURL,
   textEditor,
   resetImagePath,
   checkIfuserLogin,

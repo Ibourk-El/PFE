@@ -1,4 +1,4 @@
-import {problemURL}from "./apiRouter.js"
+import {problemURL}from "./constURLs.js"
 
 import {
   closeBtnFun,

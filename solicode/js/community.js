@@ -1,4 +1,4 @@
-import { communityURL, commentURL } from "./apiRouter.js";
+import { communityURL, commentURL } from "./constURLs.js";
 
 import {
   closeBtnFun,

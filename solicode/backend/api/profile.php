@@ -5,7 +5,7 @@ require_once "./../midelware/authorization.php";
 
 
 if(!(isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && checkIfTheUserIsLoged($_SERVER["HTTP_ID"],$_SERVER['HTTP_X_ACCESS_TOKEN']))){
-  echo json_encode(["status"=>401,"msg"=>"inAuthorization or invaled token"]);
+  http_response_code(401);
   exit();
 }
 
@@ -27,6 +27,15 @@ if($_SERVER["REQUEST_METHOD"]=="PUT"){
   $data=json_decode(file_get_contents("php://input"),true);
   $key=$data["inp_name"];
   $value=$data["inp_value"];
+
+  if($key==="email"){
+    $q="SELECT email FROM student WHERE email=:email";
+    if(!empty($db->selectElement($q,["email"=>$value])["data"])){
+      echo json_encode(["msg"=>"this email is Allready exist"]);
+      exit();
+    }
+
+  }
 
   $q="UPDATE student SET $key=:$key WHERE id=:id ";
   echo json_encode($db->update($q,[$key=>$value,"id"=>$data["id"]]));

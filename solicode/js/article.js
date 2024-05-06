@@ -1,4 +1,4 @@
-import {articleURL,commentURL}from "./apiRouter.js"
+import {articleURL,commentURL}from "./constURLs.js"
 
 import {
   closeBtnFun,

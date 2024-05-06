@@ -14,10 +14,10 @@ $data=(array) json_decode(file_get_contents("php://input"));
 $db=new Database($user,$pwd);
 $query="SELECT $tbname.id,$tbname.full_name,$tbname.class_id,$tbname.photo,$tbname.pwd,access_token.token FROM $tbname 
 LEFT JOIN access_token ON student_id=$tbname.id WHERE email=:email ";
-$res=[...$db->selectElement( $query,["email"=>$data["email"]])["data"][0]];
+$res=$db->selectElement( $query,["email"=>$data["email"]])["data"];
 
-if(!empty($res) && password_verify($data["pwd"],$res["pwd"])){
-  global $res;
+if(!empty($res) && password_verify($data["pwd"],$res[0]["pwd"])){
+  $res=[...$res[0]];
   $res["status"]=200;
   $res["msg"]="you are login successfully";
   $res["photo_path"]=changePathOfImg($res["photo"]);

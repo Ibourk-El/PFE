@@ -19,6 +19,7 @@ function validToken($token){
   $re=$db->selectElement($q,["token"=>$token]);
 
   if(empty($re["data"])){
+    
     return false;
   }
   return $re["data"][0];

@@ -1,4 +1,4 @@
-import { loginURL, signupURL } from "./apiRouter.js";
+import { loginURL, signupURL } from "./constURLs.js";
 
 import { sendData, resetImagePath } from "./functions.js";
 
@@ -89,3 +89,10 @@ async function signup() {
     msg.innerHTML = "Some Fieldes Are Empty";
   }
 }
+
+document.querySelectorAll("input").forEach((el) => {
+  el.addEventListener("input", () => {
+    const msg = document.getElementById("msg");
+    msg.innerHTML = "";
+  });
+});
