@@ -34,18 +34,6 @@
       }
     }
 
-    // function selectAll(string $tbname,string $selectElement="*"){
-    //   try{
-    //     $query="SELECT  $selectElement FROM $tbname ORDER BY id DESC";
-    //     $in=$this->pdo->prepare($query);
-    //     $in->execute();
-    //     $result=$in->fetchAll(PDO::FETCH_ASSOC);
-    //     return ["data"=>$result];
-    //   }catch(PDOException $e){
-    //     echo ["data"=>[$e->getMessage()]];
-    //   }
-    // }
-
     public function selectElement(string $query, array $data){
       try{
         $in=$this->pdo->prepare($query);
